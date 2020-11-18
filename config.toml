@@ -1,0 +1,5 @@
+baseURL = "https://teakun.github.io/"
+languageCode = "ja"
+title = "teakunのブログ"
+theme = "contrast-hugo"
+publishDir = "docs"
