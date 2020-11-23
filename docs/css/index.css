@@ -33,13 +33,19 @@ html {
 }
 
 body {
-  font-family: "PT Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Roboto", sans-serif;
   font-weight: 400;
   line-height: 1.6;
+  font-size: 1.0em;
   margin: 0;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: "Helvetica Neue",
+  Arial,
+  "Hiragino Kaku Gothic ProN",
+  "Hiragino Sans",
+  Meiryo,
+  sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -179,4 +185,88 @@ figure.center {
 
 figure.center img {
   margin: 0 auto;
+}
+/* 
+code {
+  font-size: 1.8em;
+} */
+
+
+@font-face {
+  font-family: "SourceHanCodeJP-Regular";
+  src: local("SourceHanCodeJP-Regular");
+}
+@font-face {
+  font-family: "M+ 1m";
+  src: local("M+ 1m");
+}
+@font-face {
+  font-family: "Rounded M+ 1m regular";
+  src: local("Rounded M+ 1m regular");
+}
+@font-face {
+  font-family: "Rounded M+ 2m regular";
+  src: local("Rounded M+ 2m regular");
+}
+@font-face {
+  font-family: "Rounded Mgen+ 1m regular";
+  src: local("Rounded Mgen+ 1m regular");
+}
+@font-face {
+  font-family: "Rounded Mgen+ 2m regular";
+  src: local("Rounded Mgen+ 2m regular");
+}
+@font-face {
+  font-family: "Yutapon coding Regular";
+  src: local("Yutapon coding Regular");
+}
+@font-face {
+  font-family: "Myrica M";
+  src: local("Myrica M");
+}
+@font-face {
+  font-family: "MyricaM M";
+  src: local("MyricaM M");
+}
+@font-face {
+  font-family: "Ricty Diminished Discord";
+  src: local("Ricty Diminished Discord");
+}
+@font-face {
+  font-family: "Ricty Diminished";
+  src: local("Ricty Diminished");
+}
+@font-face {
+  font-family: "Migu 1M";
+  src: local("Migu 1M");
+}
+@font-face {
+  font-family: "Migu 2M";
+  src: local("Migu 2M");
+}
+@font-face {
+  font-family: "VL ゴシック";
+  src: local("VL ゴシック");
+}
+@font-face {
+  font-family: "MeiryoKe_Gothic";
+  src: local("MeiryoKe_Gothic");
+}
+code {
+  font-family: "SourceHanCodeJP-Regular",
+               "M+ 1m",
+               "Rounded M+ 1m regular",
+               "Rounded M+ 2m regular",
+               "Rounded Mgen+ 1m regular",
+               "Rounded Mgen+ 2m regular",
+               "Yutapon coding Regular",
+               "Myrica M",
+               "MyricaM M",
+               "Ricty Diminished Discord",
+               "Ricty Diminished",
+               "Migu 1M",
+               "Migu 2M",
+               "VL ゴシック",
+               "MeiryoKe_Gothic",
+               monospace;
 }
