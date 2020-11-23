@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>teakunのブログ</title>
-    <link>https://teakun.github.io/</link>
-    <description>Recent content on teakunのブログ</description>
+    <title>Entries on teakunのブログ</title>
+    <link>https://teakun.github.io/entry/</link>
+    <description>Recent content in Entries on teakunのブログ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Tue, 17 Nov 2020 23:12:32 +0900</lastBuildDate><atom:link href="https://teakun.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Nov 2020 23:12:32 +0900</lastBuildDate><atom:link href="https://teakun.github.io/entry/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>おためし記事</title>
       <link>https://teakun.github.io/entry/hoge/</link>
