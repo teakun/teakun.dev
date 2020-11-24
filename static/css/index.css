@@ -253,20 +253,5 @@ code {
   src: local("MeiryoKe_Gothic");
 }
 code {
-  font-family: "SourceHanCodeJP-Regular",
-               "M+ 1m",
-               "Rounded M+ 1m regular",
-               "Rounded M+ 2m regular",
-               "Rounded Mgen+ 1m regular",
-               "Rounded Mgen+ 2m regular",
-               "Yutapon coding Regular",
-               "Myrica M",
-               "MyricaM M",
-               "Ricty Diminished Discord",
-               "Ricty Diminished",
-               "Migu 1M",
-               "Migu 2M",
-               "VL ゴシック",
-               "MeiryoKe_Gothic",
-               monospace;
+  font-family: Consolas, Menlo, Monaco, -apple-system, BlinkMacSystemFont, "Segoe UI", Meiryo, monospace;
 }
