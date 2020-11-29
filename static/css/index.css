@@ -35,7 +35,7 @@ html {
 body {
   font-weight: 400;
   line-height: 1.6;
-  font-size: 1.0em;
+  font-size: 0.95em;
   margin: 0;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -175,7 +175,7 @@ body > header, body > article, body > footer {
 
 @media (min-width: 32em) {
   body > header, body > article, body > footer {
-    padding: 1.75em calc(38% - 12em);
+    padding: 1.75em calc(42% - 12em);
   }
 }
 
@@ -186,72 +186,7 @@ figure.center {
 figure.center img {
   margin: 0 auto;
 }
-/* 
-code {
-  font-size: 1.8em;
-} */
 
-
-@font-face {
-  font-family: "SourceHanCodeJP-Regular";
-  src: local("SourceHanCodeJP-Regular");
-}
-@font-face {
-  font-family: "M+ 1m";
-  src: local("M+ 1m");
-}
-@font-face {
-  font-family: "Rounded M+ 1m regular";
-  src: local("Rounded M+ 1m regular");
-}
-@font-face {
-  font-family: "Rounded M+ 2m regular";
-  src: local("Rounded M+ 2m regular");
-}
-@font-face {
-  font-family: "Rounded Mgen+ 1m regular";
-  src: local("Rounded Mgen+ 1m regular");
-}
-@font-face {
-  font-family: "Rounded Mgen+ 2m regular";
-  src: local("Rounded Mgen+ 2m regular");
-}
-@font-face {
-  font-family: "Yutapon coding Regular";
-  src: local("Yutapon coding Regular");
-}
-@font-face {
-  font-family: "Myrica M";
-  src: local("Myrica M");
-}
-@font-face {
-  font-family: "MyricaM M";
-  src: local("MyricaM M");
-}
-@font-face {
-  font-family: "Ricty Diminished Discord";
-  src: local("Ricty Diminished Discord");
-}
-@font-face {
-  font-family: "Ricty Diminished";
-  src: local("Ricty Diminished");
-}
-@font-face {
-  font-family: "Migu 1M";
-  src: local("Migu 1M");
-}
-@font-face {
-  font-family: "Migu 2M";
-  src: local("Migu 2M");
-}
-@font-face {
-  font-family: "VL ゴシック";
-  src: local("VL ゴシック");
-}
-@font-face {
-  font-family: "MeiryoKe_Gothic";
-  src: local("MeiryoKe_Gothic");
-}
 code {
   font-family: Consolas, Menlo, Monaco, -apple-system, BlinkMacSystemFont, "Segoe UI", Meiryo, monospace;
 }
