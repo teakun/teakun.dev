@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Entries on teakunのブログ</title>
-    <link>https://teakun.github.io/entry/</link>
-    <description>Recent content in Entries on teakunのブログ</description>
+    <title>Entries on teakun.dev</title>
+    <link>https://teakun.dev/entry/</link>
+    <description>Recent content in Entries on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Tue, 17 Nov 2020 23:12:32 +0900</lastBuildDate><atom:link href="https://teakun.github.io/entry/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 24 Nov 2020 23:59:35 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>おためし記事</title>
-      <link>https://teakun.github.io/entry/hoge/</link>
-      <pubDate>Tue, 17 Nov 2020 23:12:32 +0900</pubDate>
+      <title>ブログ作った</title>
+      <link>https://teakun.dev/entry/2020-11-24-start-blog/</link>
+      <pubDate>Tue, 24 Nov 2020 23:59:35 +0900</pubDate>
       
-      <guid>https://teakun.github.io/entry/hoge/</guid>
-      <description>見出し 自分のブログサイトを作ってみることにします。 よろしくおねがいします。 これはおためし記事です class です
-//おためし let hoge = Class()    </description>
+      <guid>https://teakun.dev/entry/2020-11-24-start-blog/</guid>
+      <description>新しくブログを作った。
+一年くらい前まで使っていたはてなブログは今はちょっと勢いがなさそうで、使い続けるのは微妙かな、と思うようになってしまった。 他のブログプラットフォームを調べてみたりもしたけど、今どきはnoteだ！notionだ！とか、新興勢力が出てきて何がなんやらよくわからない。 他のプラットフォームに乗り換えたとしても、また新しい勢力が出てくるのは目に見えている。そんなことを気にしながらブログ書くらいなら、ちょうどweb技術のお勉強にもなりそうだしいっそ自分で作るか〜となった。 で、今回の新ブログにいたる。
+新しくブログを作るにあたって、以下のようなことを考えた。
+ 維持費がかからないか メンテナンスが楽かどうか  wordpressとかはアップデートとかあるよね？重いしめんどくさい   いざとなった脱出しやすいかどうか  独自記法だと他のブログに移行するのが難しい markdownで書きたい    ということで新ブログはとりあえずHugo + Github Pagesで作ってみた。 そのうち独自ドメインとかも取って当ててみたい。
+しょうもないけど、Hugoでは記事のパスを自分で決めないといけなくて、ここでちょっと悩んだ。 結果的には $HOME/entry/{記事} にした。 どこに悩むポイントがあるかというと、entry の部分。他の候補としてはposts、articlesあたり。 意外とこれ悩みどころじゃない？ 自分は文字数の少なさと何となくの好みでentryにした。 調べてるとこういう記事もあったりする。 でも結局は好みだし好きなやつにしたらいいよね・・・</description>
     </item>
     
   </channel>
