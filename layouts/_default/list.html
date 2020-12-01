@@ -23,7 +23,15 @@
 
 {{ else }}
 <article>
-  <header><h1>{{ default "すべての記事" | humanize }}</h1></header>
+  このサイトではteakunがプログラミングや日々の生活などの記事を公開しています。
+  <br>
+  <br>
+  <b>teakun (TAKEDA Yuki)</b> 
+  <br>
+  <a href="https://twitter.com/0__1_tea">Twitter</a>
+  <a href="https://github.com/teakun">GitHub</a>
+  <a href="https://kittengine.com/">Apps</a>
+  <header><h2>{{ default "すべての記事" | humanize }}</h2></header>
   <ul class="archive">
     {{- range $Pages }}
     <li>
