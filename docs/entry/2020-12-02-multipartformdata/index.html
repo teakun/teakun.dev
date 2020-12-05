@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>multipart/form-data入門 | teakun.dev</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.78.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://teakun.dev/css/index.css">
+<link rel="stylesheet" href="https://teakun.dev/css/classes.css">
+<link rel="canonical" href="https://teakun.dev/entry/2020-12-02-multipartformdata/">
+<link rel="alternate" type="application/rss+xml" href="" title="teakun.dev">
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'G-Z2YXDR7FFP', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://teakun.dev/">teakun.dev</a>
+  
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>multipart/form-data入門</h1>
+    <time datetime="2020-12-02T01:43:18&#43;09:00">December 02, 2020</time>
+  </header>
+  <p>仕事で<code>multipart/form-data</code>でファイルアップロードをする実装することになったけど、どういうものか全然わかっていないので調べる。</p>
+<h1 id="そもそもなにか">そもそもなにか</h1>
+<p>HTTPのリクエストで複数のデータをまとめて送るための仕組み。
+例えば、プロフィールを登録するような場合に、名前と画像をセットでアップロードするようなときに使う。</p>
+<h1 id="header">header</h1>
+<p>Content-Typeにはこのような指定が入る。</p>
+<pre><code>Content-Type: multipart/form-data; boundary=--&lt;バウンダリ文字列&gt;\r\n
+</code></pre><p>バウンダリ文字列というのがミソで、これが送信したい複数のデータの区切りになる。
+なので、この文字列はデータ中には出てこないような無難な乱数が入るのがよい。</p>
+<h1 id="body">body</h1>
+<p>bodyの例。1つ目にテキスト、2つ目に画像を送るような場合で考える。</p>
+<pre><code>--&lt;バウンダリ文字列&gt;\r\n
+Content-Disposition: form-data; name=&quot;&lt;1つ目の名前&gt;&quot;\r\n
+\r\n
+&lt;1つ目のデータ&gt;
+--&lt;バウンダリ文字列&gt;\r\n
+Content-Disposition: form-data; name=&quot;&lt;2つ目名前&gt;&quot;; filename=&quot;&lt;ファイル名&gt;&quot;\r\n
+Content-Type: image/jpeg\r\n
+\r\n
+&lt;画像のバイナリ&gt;
+--&lt;バウンダリ文字列&gt;--\r\n
+</code></pre><ul>
+<li>headerで定義したバウンダリ文字列でデータの区切りを表す。バウンダリ文字列は<code>--</code>から始めないといけない制約がある。</li>
+<li>すべての改行は<code>\r\n</code>にする。(この改行の方法をCRLFと呼ぶらしい)</li>
+<li>各データの先頭では<code>Content-Disposition</code>を指定していて、これがそのデータの情報を表している。あとは必要に応じて<code>Content-Type</code>などを指定する。</li>
+<li>区切りの最後にもバウンダリ文字列を追加を追加する必要がある。この場合はバウンダリ文字列の最後にも<code>--</code>をつけないといけない。</li>
+</ul>
+<h1 id="参考">参考</h1>
+<ul>
+<li><a href="https://satox.hatenadiary.jp/entry/20110726/1311665904">https://satox.hatenadiary.jp/entry/20110726/1311665904</a></li>
+<li><a href="https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Content-Disposition">https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Content-Disposition</a></li>
+<li><a href="https://marusunrise2.blogspot.com/2014/06/lfcrcrlf.html">https://marusunrise2.blogspot.com/2014/06/lfcrcrlf.html</a></li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>
