@@ -3,6 +3,12 @@
 <title>multipart/form-data入門 | teakun.dev</title>
 <meta charset="utf-8">
 <meta name="generator" content="Hugo 0.78.2" />
+<meta name="description" content="仕事でmultipart/form-dataでファイルアップロードをする実装することになったけど、どういうものか全然わかっていないので調べる。
+そもそもなにか HTTPのリクエストで複数のデータをまとめて送るための仕組み。 例えば、プロフィールを登録するような場合に、名前と画像をセットでアップロードするようなときに使う。
+header Content-Typeにはこのような指定が入る。
+Content-Type: multipart/form-data; boundary=--&lt;バウンダリ文字列&gt;\r\n バウンダリ文字列というのがミソで、これが送信したい複数のデータの区切りになる。 なので、この文字列はデータ中には出てこないような無難な乱数が入るのがよい。
+body bodyの例。1つ目にテキスト、2つ目に画像を送るような場合で考える。
+--&lt;バウンダリ文字列&gt;\r\n Content-Disposition: form-data; name=&quot;&lt;1つ目の名前&gt;&quot;\r\n \r\n &lt;1つ目のデータ&gt; --&lt;バウンダリ文字列&gt;\r\n Content-Disposition: form-data; name=&quot;&lt;2つ目名前&gt;&quot;; filename=&quot;&lt;ファイル名&gt;&quot;\r\n Content-Type: image/jpeg\r\n \r\n &lt;画像のバイナリ&gt; --&lt;バウンダリ文字列&gt;--\r\n  headerで定義したバウンダリ文字列でデータの区切りを表す。バウンダリ文字列は--から始めないといけない制約がある。 すべての改行は\r\nにする。(この改行の方法をCRLFと呼ぶらしい) 各データの先頭ではContent-Dispositionを指定していて、これがそのデータの情報を表している。あとは必要に応じてContent-Typeなどを指定する。 区切りの最後にもバウンダリ文字列を追加を追加する必要がある。この場合はバウンダリ文字列の最後にも--をつけないといけない。  参考  https://satox.hatenadiary.jp/entry/20110726/1311665904 https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Content-Disposition https://marusunrise2.blogspot.com/2014/06/lfcrcrlf.html  ">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://teakun.dev/css/index.css">
 <link rel="stylesheet" href="https://teakun.dev/css/classes.css">
@@ -29,6 +35,8 @@
     <a href="https://teakun.dev/">teakun.dev</a>
   
   
+  
+    <div class="hidden description">teakunのブログです</div>
   
 </header>
 

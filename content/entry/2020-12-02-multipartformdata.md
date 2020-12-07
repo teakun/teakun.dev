@@ -2,6 +2,7 @@
 title: "multipart/form-data入門"
 date: 2020-12-02T01:43:18+09:00
 draft: false
+description: "仕事で`multipart/form-data`でファイルアップロードをする実装することになったけど、どういうものか全然わかっていないので調べる。"
 ---
 
 仕事で`multipart/form-data`でファイルアップロードをする実装することになったけど、どういうものか全然わかっていないので調べる。

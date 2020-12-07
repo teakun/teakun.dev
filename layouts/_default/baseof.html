@@ -3,8 +3,8 @@
 <title>{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
 <meta charset="utf-8">
 {{ hugo.Generator }}
-{{- if or .Description .Site.Params.description }}
-<meta name="description" content="{{ .Description | default .Site.Params.description }}">
+{{- if or .Summary .Site.Params.description }}
+<meta name="description" content="{{ .Summary | default .Site.Params.description }}">
 {{- end }}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="{{ .Site.BaseURL }}css/index.css">
