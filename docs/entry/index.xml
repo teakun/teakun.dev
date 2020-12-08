@@ -6,7 +6,18 @@
     <description>Recent content in Entries on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 02 Dec 2020 01:43:18 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 08 Dec 2020 00:48:36 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SwiftのPropertyWrapperを知る</title>
+      <link>https://teakun.dev/entry/2020-12-08-swift-propertywrapper/</link>
+      <pubDate>Tue, 08 Dec 2020 00:48:36 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/2020-12-08-swift-propertywrapper/</guid>
+      <description>PropertyWrapperについて1から勉強。
+一番シンプルなパターン まずは一番かんたんな例から。始めは色のRGBを表す場合を考えてみる。それぞれの値は0~255で表されていて、それ範囲外の値が来た場合は範囲に収まるようにしたい。ここではRGBを表すためのPropertyWrapperとして、ColorValueを定義する。
+@propertyWrapper struct ColorValue { private var value: Int init() { value = 0 } var wrappedValue: Int { get { return value } set { value = min(255, max(0, newValue)) } } } struct Color { @ColorValue var r: Int // @ColorValueのwrappedValueの型と変数の型が一致しないといけない @ColorValue var g: Int @ColorValue var b: Int } var color = Color() color.r = 100 print(color.r) // 100 color.g = 999 print(color.g) // 355 color.</description>
+    </item>
+    
     <item>
       <title>multipart/form-data入門</title>
       <link>https://teakun.dev/entry/2020-12-02-multipartformdata/</link>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>SwiftのPropertyWrapperを知る | teakun.dev</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.78.2" />
+<meta name="description" content="PropertyWrapperについて1から勉強。
+一番シンプルなパターン まずは一番かんたんな例から。始めは色のRGBを表す場合を考えてみる。それぞれの値は0~255で表されていて、それ範囲外の値が来た場合は範囲に収まるようにしたい。ここではRGBを表すためのPropertyWrapperとして、ColorValueを定義する。
+@propertyWrapper struct ColorValue { private var value: Int init() { value = 0 } var wrappedValue: Int { get { return value } set { value = min(255, max(0, newValue)) } } } struct Color { @ColorValue var r: Int // @ColorValueのwrappedValueの型と変数の型が一致しないといけない @ColorValue var g: Int @ColorValue var b: Int } var color = Color() color.r = 100 print(color.r) // 100 color.g = 999 print(color.g) // 355 color.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://teakun.dev/css/index.css">
+<link rel="stylesheet" href="https://teakun.dev/css/classes.css">
+<link rel="canonical" href="https://teakun.dev/entry/2020-12-08-swift-propertywrapper/">
+<link rel="alternate" type="application/rss+xml" href="" title="teakun.dev">
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2YXDR7FFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z2YXDR7FFP');
+</script>
+
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://teakun.dev/">teakun.dev</a>
+  
+  
+  
+    <div class="hidden description">teakunのブログです</div>
+  
+</header>
+
+<article>
+  <header>
+    <h1>SwiftのPropertyWrapperを知る</h1>
+    <time datetime="2020-12-08T00:48:36&#43;09:00">December 08, 2020</time>
+  </header>
+  <p>PropertyWrapperについて1から勉強。</p>
+<h3 id="一番シンプルなパターン">一番シンプルなパターン</h3>
+<p>まずは一番かんたんな例から。始めは色のRGBを表す場合を考えてみる。それぞれの値は0~255で表されていて、それ範囲外の値が来た場合は範囲に収まるようにしたい。ここではRGBを表すための<code>PropertyWrapper</code>として、<code>ColorValue</code>を定義する。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">@propertyWrapper
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ColorValue</span> {
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> value: Int
+
+    <span style="color:#66d9ef">init</span>() {
+        value = <span style="color:#ae81ff">0</span>
+    }
+    
+    <span style="color:#66d9ef">var</span> wrappedValue: Int {
+        <span style="color:#66d9ef">get</span> {
+            <span style="color:#66d9ef">return</span> value
+        }
+        <span style="color:#66d9ef">set</span> {
+            value = min(<span style="color:#ae81ff">255</span>, max(<span style="color:#ae81ff">0</span>, newValue))
+        }
+    }
+}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Color</span> {
+    @ColorValue <span style="color:#66d9ef">var</span> r: Int <span style="color:#75715e">// @ColorValueのwrappedValueの型と変数の型が一致しないといけない</span>
+    @ColorValue <span style="color:#66d9ef">var</span> g: Int
+    @ColorValue <span style="color:#66d9ef">var</span> b: Int
+}
+
+<span style="color:#66d9ef">var</span> color = Color()
+color.r = <span style="color:#ae81ff">100</span>
+print(color.r) <span style="color:#75715e">// 100</span>
+
+color.g = <span style="color:#ae81ff">999</span>
+print(color.g) <span style="color:#75715e">// 355</span>
+
+color.b = <span style="color:#f92672">-</span><span style="color:#ae81ff">100</span>
+print(color.g) <span style="color:#75715e">// 0</span>
+</code></pre></div><p>PropertyWrapperの定義は<code>wrappedValue</code>が必須になっている。PropertyWrapperを付けた変数にget・setをするときは<code>wrappedValue</code>のget, setを経由することになる。そのため、上の例では<code>color.g</code>に999を代入しても、ColorValueのwrappedValueのsetを経由するので値としては255が入る。</p>
+<h3 id="引数をつけられる">引数をつけられる</h3>
+<p>PropertyWrapperは初期化のタイミングで変数を入れることもできる。
+例えばRGBを任意の範囲で表現できるようにしたいとき(ちょっと例が悪い)はこんな感じ。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">UIKit</span>
+
+@propertyWrapper
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ColorValue</span> {
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">let</span> minValue: Int
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">let</span> maxValue: Int
+    
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> value: Int
+    
+    <span style="color:#66d9ef">init</span>(minValue: Int, maxValue: Int) {
+        <span style="color:#66d9ef">self</span>.minValue = minValue
+        <span style="color:#66d9ef">self</span>.maxValue = maxValue
+        value = <span style="color:#ae81ff">0</span>
+    }
+    
+    <span style="color:#66d9ef">var</span> wrappedValue: Int {
+        <span style="color:#66d9ef">get</span> {
+            <span style="color:#66d9ef">return</span> value
+        }
+        <span style="color:#66d9ef">set</span> {
+            value = min(maxValue, max(minValue, newValue))
+        }
+    }
+}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Color</span> {
+    @ColorValue(minValue: <span style="color:#ae81ff">0</span>, maxValue: <span style="color:#ae81ff">1000</span>) <span style="color:#66d9ef">var</span> r: Int
+    @ColorValue(minValue: <span style="color:#ae81ff">0</span>, maxValue: <span style="color:#ae81ff">1000</span>) <span style="color:#66d9ef">var</span> g: Int
+    @ColorValue(minValue: <span style="color:#ae81ff">0</span>, maxValue: <span style="color:#ae81ff">1000</span>) <span style="color:#66d9ef">var</span> b: Int
+}
+
+<span style="color:#66d9ef">var</span> color = Color()
+color.r = <span style="color:#ae81ff">9999</span>
+print(color.r) <span style="color:#75715e">// 1000</span>
+</code></pre></div><p>これで変数の定義のタイミングで任意のしきい値が入れられるようになった。</p>
+<h3 id="projectedvalueで追加の値を表現">projectedValueで追加の値を表現</h3>
+<p><code>wrappedValue</code>に加えて<code>projectedValue</code>という値を定義することで、変数に機能を追加できるようになる。</p>
+<p>さっきとは全く違う例を出してみる。今回は気温を表すためのPropertyWrapperを作る。このとき、気温の数字に加えて、氷点下かどうかをBoolで取り出したい。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">@propertyWrapper
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Temperature</span> {
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> value: Int
+    <span style="color:#66d9ef">var</span> projectedValue: Bool = <span style="color:#66d9ef">false</span>
+    
+    <span style="color:#66d9ef">init</span>() {
+        value = <span style="color:#ae81ff">22</span>
+        projectedValue = <span style="color:#66d9ef">true</span>
+    }
+    
+    <span style="color:#66d9ef">var</span> wrappedValue: Int {
+        <span style="color:#66d9ef">get</span> {
+            <span style="color:#66d9ef">return</span> value
+        }
+        <span style="color:#66d9ef">set</span> {
+            projectedValue = newValue <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>
+            value = newValue
+        }
+    }
+}
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WorldTemperture</span> {
+    @Temperature <span style="color:#66d9ef">var</span> tokyo: Int
+}
+
+<span style="color:#66d9ef">let</span> temperture = WorldTemperture()
+temperture.tokyo = <span style="color:#f92672">-</span><span style="color:#ae81ff">22</span>
+print(temperture.<span style="color:#960050;background-color:#1e0010">$</span>tokyo) <span style="color:#75715e">// false</span>
+</code></pre></div><p><code>projectedValue</code>を定義することで、その値を<code>$ + プロパティ名</code>で取り出すことができる。上の例だと<code>$tokyo</code>の部分。仕組みは分かったけどこの仕様はあんまりしっくり来てない。<code>$</code>をつけると全く違う型になるの不思議すぎない？</p>
+<h3 id="おわり">おわり</h3>
+<p>ちょっと力尽きたので今日はここまで・・・もうちょっと理解したら応用編もまとめたい</p>
+<h2 id="参考資料">参考資料</h2>
+<ul>
+<li><a href="https://docs.swift.org/swift-book/LanguageGuide/Properties.html">https://docs.swift.org/swift-book/LanguageGuide/Properties.html</a></li>
+<li><a href="https://www.2nd-walker.com/2020/02/12/swift-property-wrappers/">https://www.2nd-walker.com/2020/02/12/swift-property-wrappers/</a></li>
+<li><a href="https://dev.classmethod.jp/articles/property-wrappers/">https://dev.classmethod.jp/articles/property-wrappers/</a></li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>
