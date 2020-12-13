@@ -2,8 +2,8 @@
   <div class="youtube-inner">
   <iframe src="http://www.youtube.com/embed/{{ index .Params 0 }}" class="youtube-frame"  allowfullscreen title="YouTube Video">
   </iframe>
-  {{if index .Params 1}}
-  <div>{{index .Params 1}}</div>
-  {{- end }}
   </div>
 </div>
+{{if index .Params 1}}
+<div class="youtube-caption">{{index .Params 1}}</div>
+{{- end }}
