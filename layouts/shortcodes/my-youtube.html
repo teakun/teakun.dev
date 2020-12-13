@@ -1,9 +1,9 @@
 <div class="youtube-container">
   <div class="youtube-inner">
-  <iframe src="http://www.youtube.com/embed/{{ index .Params 0 }}" class="youtube-frame"  allowfullscreen title="YouTube Video">
+  <iframe src="http://www.youtube.com/embed/{{ index .Params 0 }}" style="position: relative; margin: auto; width: 100%; height: 100%; border: 0; "  allowfullscreen title="YouTube Video">
   </iframe>
   </div>
 </div>
 {{if index .Params 1}}
 <div class="youtube-caption">{{index .Params 1}}</div>
-{{- end }}
+{{- end }} 
