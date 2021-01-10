@@ -6,7 +6,23 @@
     <description>Recent content in Entries on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Thu, 31 Dec 2020 22:09:42 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 10 Jan 2021 22:16:39 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Xcode source editor extensionを試した記録</title>
+      <link>https://teakun.dev/entry/2021-01-10-try-xcodesourceeditorextension/</link>
+      <pubDate>Sun, 10 Jan 2021 22:16:39 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/2021-01-10-try-xcodesourceeditorextension/</guid>
+      <description>試してみたので過程を残しておく。
+エディタ上で選択した範囲からその部分がハイライトされるGitHubのリンクを生成するExtensionを作りたかったが、それはできないということが分かって残念。 環境はBigSur11.1でXCode12.3。
+ビルドするまで まずはこのあたりの資料を参考にシンプルなプロジェクトを作ってみる。2017年とちょっと古い資料だけど、基本的な部分は変わっていない。とても参考になった。
+ https://speakerdeck.com/takasek/20170916-number-iosdc https://github.com/takasek/XcodeExtensionSample  これを元にシンプルなプロジェクトができたけど、そのままだとXCodeがクラッシュ、コマンドが認識されないなどの問題が起きた。
+XCode12以降でビルドできない問題 extensionを作るためにはXCodeKit.frameworkを使う必要があるけれど、XCode12以降ではそれがembedになっている必要がある。
+ For compatibility with new security features in macOS 11, Xcode extensions must be built using Xcode 12 and must embed XcodeKit.framework. An Xcode extension rebuilt with these tools remains compatible with older versions of Xcode and macOS.
+  https://developer.apple.com/documentation/xcode-release-notes/xcode-12-release-notes  ということで、Embedの設定をEmbed &amp;amp; Signに変えてやるとよい。  一応他にも同じ問題で困っている人がいるようだった。
+Extensionの権限がない問題 上の設定の問題が解消してビルドができるようになったが、自分の環境ではまだ新しく作ったコマンドがXCodeで表示されない問題があった。 どうやら作ったExtensionにmacOS自体の機能拡張の権限が渡っていなかったのが原因。  システム環境設定 -&amp;gt; 機能拡張 -&amp;gt; XCode Source Editorから作ったExtensionのチェックを入れ直して解決。</description>
+    </item>
+    
     <item>
       <title>2020</title>
       <link>https://teakun.dev/entry/2020-12-31-2020/</link>

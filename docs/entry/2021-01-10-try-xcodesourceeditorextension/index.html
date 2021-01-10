@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>Xcode source editor extensionを試した記録 | teakun.dev</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.78.2" />
+<meta name="description" content="試してみたので過程を残しておく。
+エディタ上で選択した範囲からその部分がハイライトされるGitHubのリンクを生成するExtensionを作りたかったが、それはできないということが分かって残念。 環境はBigSur11.1でXCode12.3。
+ビルドするまで まずはこのあたりの資料を参考にシンプルなプロジェクトを作ってみる。2017年とちょっと古い資料だけど、基本的な部分は変わっていない。とても参考になった。
+ https://speakerdeck.com/takasek/20170916-number-iosdc https://github.com/takasek/XcodeExtensionSample  これを元にシンプルなプロジェクトができたけど、そのままだとXCodeがクラッシュ、コマンドが認識されないなどの問題が起きた。
+XCode12以降でビルドできない問題 extensionを作るためにはXCodeKit.frameworkを使う必要があるけれど、XCode12以降ではそれがembedになっている必要がある。
+ For compatibility with new security features in macOS 11, Xcode extensions must be built using Xcode 12 and must embed XcodeKit.framework. An Xcode extension rebuilt with these tools remains compatible with older versions of Xcode and macOS.
+  https://developer.apple.com/documentation/xcode-release-notes/xcode-12-release-notes  ということで、Embedの設定をEmbed &amp; Signに変えてやるとよい。  一応他にも同じ問題で困っている人がいるようだった。
+Extensionの権限がない問題 上の設定の問題が解消してビルドができるようになったが、自分の環境ではまだ新しく作ったコマンドがXCodeで表示されない問題があった。 どうやら作ったExtensionにmacOS自体の機能拡張の権限が渡っていなかったのが原因。  システム環境設定 -&gt; 機能拡張 -&gt; XCode Source Editorから作ったExtensionのチェックを入れ直して解決。">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://teakun.dev/css/index.css">
+<link rel="stylesheet" href="https://teakun.dev/css/classes.css">
+<link rel="stylesheet" href="https://teakun.dev/css/custom.css">
+<link rel="canonical" href="https://teakun.dev/entry/2021-01-10-try-xcodesourceeditorextension/">
+<link rel="alternate" type="application/rss+xml" href="" title="teakun.dev">
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2YXDR7FFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z2YXDR7FFP');
+</script>
+
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://teakun.dev/">teakun.dev</a>
+  
+  
+  
+    <div class="hidden description">teakunのブログです</div>
+  
+</header>
+
+<article>
+  <header>
+    <h1>Xcode source editor extensionを試した記録</h1>
+    <time datetime="2021-01-10T22:16:39&#43;09:00">January 10, 2021</time>
+  </header>
+  <p>試してみたので過程を残しておく。</p>
+<p>エディタ上で選択した範囲からその部分がハイライトされるGitHubのリンクを生成するExtensionを作りたかったが、それはできないということが分かって残念。
+環境はBigSur11.1でXCode12.3。</p>
+<h1 id="ビルドするまで">ビルドするまで</h1>
+<p>まずはこのあたりの資料を参考にシンプルなプロジェクトを作ってみる。2017年とちょっと古い資料だけど、基本的な部分は変わっていない。とても参考になった。</p>
+<ul>
+<li><a href="https://speakerdeck.com/takasek/20170916-number-iosdc">https://speakerdeck.com/takasek/20170916-number-iosdc</a></li>
+<li><a href="https://github.com/takasek/XcodeExtensionSample">https://github.com/takasek/XcodeExtensionSample</a></li>
+</ul>
+<p>これを元にシンプルなプロジェクトができたけど、そのままだとXCodeがクラッシュ、コマンドが認識されないなどの問題が起きた。</p>
+<h3 id="xcode12以降でビルドできない問題">XCode12以降でビルドできない問題</h3>
+<p>extensionを作るためにはXCodeKit.frameworkを使う必要があるけれど、XCode12以降ではそれがembedになっている必要がある。</p>
+<blockquote>
+<p>For compatibility with new security features in macOS 11, Xcode extensions must be built using Xcode 12 and must embed XcodeKit.framework. An Xcode extension rebuilt with these tools remains compatible with older versions of Xcode and macOS.</p>
+</blockquote>
+<ul>
+<li><a href="https://developer.apple.com/documentation/xcode-release-notes/xcode-12-release-notes">https://developer.apple.com/documentation/xcode-release-notes/xcode-12-release-notes</a></li>
+</ul>
+<p>ということで、Embedの設定を<code>Embed &amp; Sign</code>に変えてやるとよい。
+<figure class="center">
+    <img src="/img/2021-01-10-001.png"/> 
+</figure>
+</p>
+<p>一応他にも<a href="https://github.com/Jintin/Swimat/issues/227">同じ問題で困っている人</a>がいるようだった。</p>
+<h3 id="extensionの権限がない問題">Extensionの権限がない問題</h3>
+<p>上の設定の問題が解消してビルドができるようになったが、自分の環境ではまだ新しく作ったコマンドがXCodeで表示されない問題があった。
+どうやら作ったExtensionにmacOS自体の機能拡張の権限が渡っていなかったのが原因。
+<figure class="center">
+    <img src="/img/2021-01-10-002.png"/> 
+</figure>
+</p>
+<p>システム環境設定 -&gt; 機能拡張 -&gt; XCode Source Editorから作ったExtensionのチェックを入れ直して解決。</p>
+<ul>
+<li><a href="https://ez-net.jp/article/83/1AuGcndM/YL1DSTNKXeYD/">https://ez-net.jp/article/83/1AuGcndM/YL1DSTNKXeYD/</a></li>
+</ul>
+<h1 id="できたこと">できたこと</h1>
+<h3 id="選択した行の取得">選択した行の取得</h3>
+<p>エディタで選択している行を取得することはできた。
+コードはざっくりこんなところ</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">perform</span>(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -&gt; Void ) -&gt; Void {
+        <span style="color:#66d9ef">if</span> invocation.buffer.selections.count <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> {
+            completionHandler(<span style="color:#66d9ef">nil</span>)
+            <span style="color:#66d9ef">return</span>
+        }
+        
+        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> targetSelection = invocation.buffer.selections[<span style="color:#ae81ff">0</span>] <span style="color:#66d9ef">as</span>? XCSourceTextRange <span style="color:#66d9ef">else</span> {
+            completionHandler(<span style="color:#66d9ef">nil</span>)
+            <span style="color:#66d9ef">return</span>
+        }
+        
+        <span style="color:#66d9ef">let</span> startLine = targetSelection.start.line
+        <span style="color:#66d9ef">let</span> endLine: Int
+        <span style="color:#66d9ef">if</span> targetSelection.end.column == <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> (targetSelection.start.line <span style="color:#f92672">!=</span> targetSelection.end.line) {
+            endLine = targetSelection.end.line <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+        } <span style="color:#66d9ef">else</span> {
+            endLine = targetSelection.end.line
+        }
+        
+        print(<span style="color:#e6db74">&#34;start:&#34;</span>,startLine)
+        print(<span style="color:#e6db74">&#34;end:&#34;</span>, endLine)
+
+        completionHandler(<span style="color:#66d9ef">nil</span>)
+    }
+</code></pre></div><p>行数のカウント(<code>XCSourceTextPosition.line</code>)は0から始まるので注意。エディタの左に出る数字とは1つずれるのでややこしい。</p>
+<p>1つハマりどころがあって、複数行選択しているかつ、選択範囲の終端が行末にあるときに、上のコードで言うところの、<code>targetSelection.end.line</code>が実際に選択している次の行の数になってしまう。
+この問題も<a href="https://qiita.com/funzin/items/e6f2c65351138a980386">よくまとまっている記事</a>があって、とても参考になりました。
+正直いうとほとんどこの記事を参考に実装した。</p>
+<h3 id="クリップボードへの保存">クリップボードへの保存</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">  <span style="color:#66d9ef">let</span> pasteboard = NSPasteboard.general
+  pasteboard.declareTypes([.string], oner: <span style="color:#66d9ef">nil</span>)
+  pasteboard.setString(text, forType: .string
+</code></pre></div><p>ざっくりこんな感じ。シンプル。</p>
+<h1 id="できなかったこと">できなかったこと</h1>
+<h3 id="開いているファイルの名前を取得">開いているファイルの名前を取得</h3>
+<p><a href="https://stackoverflow.com/questions/56058281/how-to-get-current-workspace-path-in-xcode-source-editor-extension">そもそもサポートされていない</a>。ちょっとこれができないのは厳しい。</p>
+<h3 id="gitのリモートリポジトリブランチの取得">gitのリモートリポジトリ、ブランチの取得</h3>
+<p>Extensionの仕組みとしてはこちらも用意されていない様子。</p>
+<p>代案としてshellコマンドをExtension上から実行してリモートリポジトリ、ブランチを取得する方法を考えたが、これも難しかった。
+gitコマンドを実行すると、<code>xcrun: error: cannot be used within an App Sandbox</code>とエラーが出てしまう。
+これは、<a href="https://developer.apple.com/library/archive/documentation/Security/Conceptual/AppSandboxDesignGuide/AboutAppSandbox/AboutAppSandbox.html#//apple_ref/doc/uid/TP40011183-CH1-SW1">App Sandbox</a>という仕組みがmacOSアプリ開発にあって、あらゆる権限が縛られているらしい。確かに自由にシェルのコマンドが打ててしまうと権限管理的にまずいというのは分かる。AppSandboxでは他にもfinderのアクセス、ハードウェアアクセスなどが縛られていた。もっとよく調べたらこれは解決できそうだったけど、先に書いたファイル名を取得できない問題が解決できないのでこれ以上の調査は断念。</p>
+<p>コマンドを実行する方法は<a href="https://qiita.com/wheel/items/004f94c6e7ecea30bb01">この記事</a>がわかりやすかった。この実装自体はコマンドラインツールを作るときにも使いそう？</p>
+<h1 id="おわり">おわり</h1>
+<p>Extensionは想像以上に何も作れないということが分かった。もうちょっとAPIを開放してくれたらいいのになあ…</p>
+<p>あと、このブログ見出しが見にくくて読みにくいなと自分で思った。ブログのデザインもうちょっといい感じにしたい。</p>
+
+</article>
+
+
+
+</body>
+
+</html>
