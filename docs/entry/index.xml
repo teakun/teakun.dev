@@ -6,7 +6,17 @@
     <description>Recent content in Entries on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 10 Jan 2021 22:16:39 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 23 Jan 2021 00:18:34 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>20210123</title>
+      <link>https://teakun.dev/entry/2021-01-23-ghostintheshell/</link>
+      <pubDate>Sat, 23 Jan 2021 00:18:34 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/2021-01-23-ghostintheshell/</guid>
+      <description>年始ぐらいから攻殻機動隊のSACシリーズをひたすら観ていて、最近やっと見終わった。 攻殻機動隊、名前は知っていたけど何となく観ていなかったアニメ。メカにネットにアクションにと大好きなテーマがてんこ盛りといったところでめちゃくちゃ面白かった。もっと早く観たら良かった。 大きな話の間に単発の話も混ざったりと変化があって、全体を通して飽ることもなかった。 自分は単発の話が好き。 基本的に仕事の昼休憩の時間にみていたけれど、いつの間にか昼休憩にアニメを見る習慣がついた。攻殻機動隊を観終わってからも別のアニメを探しては昼にずっと見ている。なんとなく生活が豊かになったような気がする。
+あとから押井守の映画版も観たけど、こっちは話が難しくてついていけないところがあった… また思い出したときに観る。</description>
+    </item>
+    
     <item>
       <title>Xcode source editor extensionを試した記録</title>
       <link>https://teakun.dev/entry/2021-01-10-try-xcodesourceeditorextension/</link>
