@@ -6,7 +6,18 @@
     <description>Recent content on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 06 Feb 2021 23:04:51 +0900</lastBuildDate><atom:link href="https://teakun.dev/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Mar 2021 00:03:52 +0900</lastBuildDate><atom:link href="https://teakun.dev/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【iOS】admobのアダプティブバナーでレイアウトが可変にならなかった問題</title>
+      <link>https://teakun.dev/entry/2021-03-08-admob-adaptivebanner-layout/</link>
+      <pubDate>Mon, 08 Mar 2021 00:03:52 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/2021-03-08-admob-adaptivebanner-layout/</guid>
+      <description>タイトルのまま。 基本的に公式のマニュアルの通りにやれば間違いないがしょうもないハマりどころがあった。
+起きた問題  前提: iOS, UIKit,autolayout 以下のようにadSizeを更新してもレイアウトが320*50で固定されてしまう  bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth) 原因 autolayoutでバナーのviewに対してwidth=320,height=50の制約を貼ってしまっていたため。元々のバナーの320*50の制約が残っていてadSizeを更新してもその制約が優先されるようになっていた。 勝手に更新してくれるのかと思ったけどそんなことはない。
+対応 width=320,height=50の制約を剥がす。そのままではviewのレイアウトが定まらずにエラーが出てしまうのでintrinsic sizeのPlaceholderに仮の値を入れておくとよい。 intrinsic sizeについてはこの記事が詳しくて分かりやすい。  ちなみにサンプルコードを実際に開いてみるとintrinsic sizeを入れる方法で実装してあった。</description>
+    </item>
+    
     <item>
       <title>最近読んだ本とか</title>
       <link>https://teakun.dev/entry/2021-02-06-reading/</link>

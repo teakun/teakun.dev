@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>【iOS】admobのアダプティブバナーでレイアウトが可変にならなかった問題 | teakun.dev</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.78.2" />
+<meta name="description" content="タイトルのまま。 基本的に公式のマニュアルの通りにやれば間違いないがしょうもないハマりどころがあった。
+起きた問題  前提: iOS, UIKit,autolayout 以下のようにadSizeを更新してもレイアウトが320*50で固定されてしまう  bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth) 原因 autolayoutでバナーのviewに対してwidth=320,height=50の制約を貼ってしまっていたため。元々のバナーの320*50の制約が残っていてadSizeを更新してもその制約が優先されるようになっていた。 勝手に更新してくれるのかと思ったけどそんなことはない。
+対応 width=320,height=50の制約を剥がす。そのままではviewのレイアウトが定まらずにエラーが出てしまうのでintrinsic sizeのPlaceholderに仮の値を入れておくとよい。 intrinsic sizeについてはこの記事が詳しくて分かりやすい。  ちなみにサンプルコードを実際に開いてみるとintrinsic sizeを入れる方法で実装してあった。">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://teakun.dev/css/index.css">
+<link rel="stylesheet" href="https://teakun.dev/css/classes.css">
+<link rel="stylesheet" href="https://teakun.dev/css/custom.css">
+<link rel="canonical" href="https://teakun.dev/entry/2021-03-08-admob-adaptivebanner-layout/">
+<link rel="alternate" type="application/rss+xml" href="" title="teakun.dev">
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2YXDR7FFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z2YXDR7FFP');
+</script>
+
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://teakun.dev/">teakun.dev</a>
+  
+  
+  
+    <div class="hidden description">teakunのブログです</div>
+  
+</header>
+
+<article>
+  <header>
+    <h1>【iOS】admobのアダプティブバナーでレイアウトが可変にならなかった問題</h1>
+    <time datetime="2021-03-08T00:03:52&#43;09:00">March 08, 2021</time>
+  </header>
+  <p>タイトルのまま。
+基本的に<a href="https://developers.google.com/admob/ios/banner/adaptive?hl=ja">公式のマニュアル</a>の通りにやれば間違いないがしょうもないハマりどころがあった。</p>
+<h2 id="起きた問題">起きた問題</h2>
+<ul>
+<li>前提: iOS, UIKit,autolayout</li>
+<li>以下のように<code>adSize</code>を更新してもレイアウトが320*50で固定されてしまう</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth)
+</code></pre></div><h2 id="原因">原因</h2>
+<p>autolayoutでバナーのviewに対してwidth=320,height=50の制約を貼ってしまっていたため。元々のバナーの320*50の制約が残っていて<code>adSize</code>を更新してもその制約が優先されるようになっていた。
+勝手に更新してくれるのかと思ったけどそんなことはない。</p>
+<h2 id="対応">対応</h2>
+<p>width=320,height=50の制約を剥がす。そのままではviewのレイアウトが定まらずにエラーが出てしまうのでintrinsic sizeのPlaceholderに仮の値を入れておくとよい。
+intrinsic sizeについては<a href="https://qiita.com/shtnkgm/items/f0b189e4184fe6c90707">この記事</a>が詳しくて分かりやすい。
+<figure class="center">
+    <img src="/img/2021-03-08-001.png"/> 
+</figure>
+</p>
+<p>ちなみに<a href="https://github.com/googleads/googleads-mobile-ios-examples/tree/master/Swift/admob/AdaptiveBannerExample">サンプルコード</a>を実際に開いてみるとintrinsic sizeを入れる方法で実装してあった。</p>
+
+</article>
+
+
+
+</body>
+
+</html>
