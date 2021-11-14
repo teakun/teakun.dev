@@ -1,68 +1,48 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://teakun.dev/entry/</loc>
-    <lastmod>2021-03-08T00:03:52+09:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2021-11-14T16:29:01+09:00</lastmod>
+  </url><url>
+    <loc>https://teakun.dev/entry/2021-11-14-googlemobileads-update/</loc>
+    <lastmod>2021-11-14T16:29:01+09:00</lastmod>
+  </url><url>
     <loc>https://teakun.dev/</loc>
-    <lastmod>2021-03-08T00:03:52+09:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2021-11-14T16:29:01+09:00</lastmod>
+  </url><url>
     <loc>https://teakun.dev/entry/2021-03-08-admob-adaptivebanner-layout/</loc>
     <lastmod>2021-03-08T00:03:52+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://teakun.dev/entry/2021-02-06-reading/</loc>
     <lastmod>2021-02-06T23:04:51+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://teakun.dev/entry/2021-01-23-ghostintheshell/</loc>
     <lastmod>2021-01-23T00:18:34+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://teakun.dev/entry/2021-01-10-try-xcodesourceeditorextension/</loc>
     <lastmod>2021-01-10T22:16:39+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://teakun.dev/entry/2020-12-31-2020/</loc>
     <lastmod>2020-12-31T22:09:42+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://teakun.dev/entry/2020-12-13-hiden/</loc>
     <lastmod>2020-12-13T18:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://teakun.dev/entry/2020-12-08-swift-propertywrapper/</loc>
     <lastmod>2020-12-08T00:48:36+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://teakun.dev/entry/2020-12-02-multipartformdata/</loc>
     <lastmod>2020-12-02T01:43:18+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://teakun.dev/entry/2020-11-24-start-blog/</loc>
     <lastmod>2020-11-24T23:59:35+09:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>https://teakun.dev/entry/hoge/</loc>
+    <lastmod>2020-11-17T23:12:32+09:00</lastmod>
+  </url><url>
     <loc>https://teakun.dev/categories/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://teakun.dev/tags/</loc>
   </url>
-  
 </urlset>

@@ -6,7 +6,17 @@
     <description>Recent content in Entries on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Mon, 08 Mar 2021 00:03:52 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Nov 2021 16:29:01 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GoogleMobileAdsアップデート(7.67.0 -&gt; 8.12.0)</title>
+      <link>https://teakun.dev/entry/2021-11-14-googlemobileads-update/</link>
+      <pubDate>Sun, 14 Nov 2021 16:29:01 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/2021-11-14-googlemobileads-update/</guid>
+      <description>iOSの話。 久しぶりにGoogleMobileAdsSDKのアップデートをしたらIFが変わっていたのでメモ。
+interstatial  https://developers.google.com/admob/ios/full-screen-migration?hl=ja  ベータ版のときのドキュメント GADInterstitialAdBetaをGADInterstitialAdに読み替えるとそのまま使える これまではinterstatialが読込中・読み込み完了の状態を持つようになっていたが、広告の読み込みが完了したときだけインスタンスが取得できるようになった    banner  デリゲートメソットのネーミングが刷新  # before func adViewDidReceiveAd(_ bannerView: GADBannerView) {} # after func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {} 手元の環境では大体対応するメソッドがあるので置き換えて完了した。</description>
+    </item>
+    
     <item>
       <title>【iOS】admobのアダプティブバナーでレイアウトが可変にならなかった問題</title>
       <link>https://teakun.dev/entry/2021-03-08-admob-adaptivebanner-layout/</link>
@@ -123,6 +133,16 @@ body bodyの例。1つ目にテキスト、2つ目に画像を送るような場
 新しくブログを作るにあたって、以下のようなことを考えた。
  維持費がかからないか メンテナンスが楽かどうか  wordpressとかはアップデートとかあるよね？重いしめんどくさい   いざとなった脱出しやすいかどうか  独自記法だと他のブログに移行するのが難しい markdownで書きたい    ということで新ブログはとりあえずHugo + Github Pagesで作ってみた。 そのうち独自ドメインとかも取って当ててみたい。
 しょうもないけど、Hugoでは記事のパスを自分で決めないといけなくて、ここでちょっと悩んだ。 結果的には $HOME/entry/{記事} にした。 どこに悩むポイントがあるかというと、entry の部分。他の候補としてはposts、articlesあたり。 意外とこれ悩みどころじゃない？ 自分は文字数の少なさと何となくの好みでentryにした。 調べてるとこういう記事もあったりする。 でも結局は好みだし好きなやつにしたらいいよね・・・</description>
+    </item>
+    
+    <item>
+      <title>ブログ作った</title>
+      <link>https://teakun.dev/entry/hoge/</link>
+      <pubDate>Tue, 17 Nov 2020 23:12:32 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/hoge/</guid>
+      <description>見出し 自分のブログサイトを作ってみることにします。 よろしくおねがいします。 これはおためし記事です class です
+//おためし let hoge = Class()    </description>
     </item>
     
   </channel>

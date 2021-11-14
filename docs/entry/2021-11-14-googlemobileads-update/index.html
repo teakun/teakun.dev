@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>GoogleMobileAdsアップデート(7.67.0 -&gt; 8.12.0) | teakun.dev</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.89.2" />
+<meta name="description" content="iOSの話。 久しぶりにGoogleMobileAdsSDKのアップデートをしたらIFが変わっていたのでメモ。
+interstatial  https://developers.google.com/admob/ios/full-screen-migration?hl=ja  ベータ版のときのドキュメント GADInterstitialAdBetaをGADInterstitialAdに読み替えるとそのまま使える これまではinterstatialが読込中・読み込み完了の状態を持つようになっていたが、広告の読み込みが完了したときだけインスタンスが取得できるようになった    banner  デリゲートメソットのネーミングが刷新  # before func adViewDidReceiveAd(_ bannerView: GADBannerView) {} # after func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {} 手元の環境では大体対応するメソッドがあるので置き換えて完了した。">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://teakun.dev/css/index.css">
+<link rel="stylesheet" href="https://teakun.dev/css/classes.css">
+<link rel="stylesheet" href="https://teakun.dev/css/custom.css">
+<link rel="canonical" href="https://teakun.dev/entry/2021-11-14-googlemobileads-update/">
+<link rel="alternate" type="application/rss+xml" href="" title="teakun.dev">
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2YXDR7FFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z2YXDR7FFP');
+</script>
+
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://teakun.dev/">teakun.dev</a>
+  
+  
+  
+    <div class="hidden description">teakunのブログです</div>
+  
+</header>
+
+<article>
+  <header>
+    <h1>GoogleMobileAdsアップデート(7.67.0 -&gt; 8.12.0)</h1>
+    <time datetime="2021-11-14T16:29:01&#43;09:00">November 14, 2021</time>
+  </header>
+  <p>iOSの話。
+久しぶりにGoogleMobileAdsSDKのアップデートをしたらIFが変わっていたのでメモ。</p>
+<h2 id="interstatial">interstatial</h2>
+<ul>
+<li><a href="https://developers.google.com/admob/ios/full-screen-migration?hl=ja">https://developers.google.com/admob/ios/full-screen-migration?hl=ja</a>
+<ul>
+<li>ベータ版のときのドキュメント</li>
+<li><code>GADInterstitialAdBeta</code>を<code>GADInterstitialAd</code>に読み替えるとそのまま使える</li>
+<li>これまではinterstatialが読込中・読み込み完了の状態を持つようになっていたが、広告の読み込みが完了したときだけインスタンスが取得できるようになった</li>
+</ul>
+</li>
+</ul>
+<h2 id="banner">banner</h2>
+<ul>
+<li>デリゲートメソットのネーミングが刷新</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"># before
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">adViewDidReceiveAd</span>(<span style="color:#66d9ef">_</span> bannerView: GADBannerView) {}
+# after
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">bannerViewDidReceiveAd</span>(<span style="color:#66d9ef">_</span> bannerView: GADBannerView) {}
+</code></pre></div><p>手元の環境では大体対応するメソッドがあるので置き換えて完了した。</p>
+
+</article>
+
+
+
+</body>
+
+</html>

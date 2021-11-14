@@ -2,7 +2,7 @@
 <html lang="ja">
 <title>Xcode source editor extensionを試した記録 | teakun.dev</title>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.78.2" />
+<meta name="generator" content="Hugo 0.89.2" />
 <meta name="description" content="試してみたので過程を残しておく。
 エディタ上で選択した範囲からその部分がハイライトされるGitHubのリンクを生成するExtensionを作りたかったが、それはできないということが分かって残念。 環境はBigSur11.1でXCode12.3。
 ビルドするまで まずはこのあたりの資料を参考にシンプルなプロジェクトを作ってみる。2017年とちょっと古い資料だけど、基本的な部分は変わっていない。とても参考になった。
@@ -67,16 +67,14 @@ Extensionの権限がない問題 上の設定の問題が解消してビルド�
 <li><a href="https://developer.apple.com/documentation/xcode-release-notes/xcode-12-release-notes">https://developer.apple.com/documentation/xcode-release-notes/xcode-12-release-notes</a></li>
 </ul>
 <p>ということで、Embedの設定を<code>Embed &amp; Sign</code>に変えてやるとよい。
-<figure class="center">
-    <img src="/img/2021-01-10-001.png"/> 
+<figure class="center"><img src="/img/2021-01-10-001.png"/>
 </figure>
 </p>
 <p>一応他にも<a href="https://github.com/Jintin/Swimat/issues/227">同じ問題で困っている人</a>がいるようだった。</p>
 <h3 id="extensionの権限がない問題">Extensionの権限がない問題</h3>
 <p>上の設定の問題が解消してビルドができるようになったが、自分の環境ではまだ新しく作ったコマンドがXCodeで表示されない問題があった。
 どうやら作ったExtensionにmacOS自体の機能拡張の権限が渡っていなかったのが原因。
-<figure class="center">
-    <img src="/img/2021-01-10-002.png"/> 
+<figure class="center"><img src="/img/2021-01-10-002.png"/>
 </figure>
 </p>
 <p>システム環境設定 -&gt; 機能拡張 -&gt; XCode Source Editorから作ったExtensionのチェックを入れ直して解決。</p>
@@ -87,7 +85,7 @@ Extensionの権限がない問題 上の設定の問題が解消してビルド�
 <h3 id="選択した行の取得">選択した行の取得</h3>
 <p>エディタで選択している行を取得することはできた。
 コードはざっくりこんなところ</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">perform</span>(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -&gt; Void ) -&gt; Void {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">perform</span>(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -&gt; Void ) -&gt; Void {
         <span style="color:#66d9ef">if</span> invocation.buffer.selections.count <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> {
             completionHandler(<span style="color:#66d9ef">nil</span>)
             <span style="color:#66d9ef">return</span>
@@ -116,7 +114,7 @@ Extensionの権限がない問題 上の設定の問題が解消してビルド�
 この問題も<a href="https://qiita.com/funzin/items/e6f2c65351138a980386">よくまとまっている記事</a>があって、とても参考になりました。
 正直いうとほとんどこの記事を参考に実装した。</p>
 <h3 id="クリップボードへの保存">クリップボードへの保存</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">  <span style="color:#66d9ef">let</span> pasteboard = NSPasteboard.general
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">  <span style="color:#66d9ef">let</span> pasteboard = NSPasteboard.general
   pasteboard.declareTypes([.string], oner: <span style="color:#66d9ef">nil</span>)
   pasteboard.setString(text, forType: .string
 </code></pre></div><p>ざっくりこんな感じ。シンプル。</p>

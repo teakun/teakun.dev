@@ -2,7 +2,7 @@
 <html lang="ja">
 <title>SwiftのPropertyWrapperを知る | teakun.dev</title>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.78.2" />
+<meta name="generator" content="Hugo 0.89.2" />
 <meta name="description" content="PropertyWrapperについて1から勉強。
 一番シンプルなパターン まずは一番かんたんな例から。始めは色のRGBを表す場合を考えてみる。それぞれの値は0~255で表されていて、それ範囲外の値が来た場合は範囲に収まるようにしたい。ここではRGBを表すためのPropertyWrapperとして、ColorValueを定義する。
 @propertyWrapper struct ColorValue { private var value: Int init() { value = 0 } var wrappedValue: Int { get { return value } set { value = min(255, max(0, newValue)) } } } struct Color { @ColorValue var r: Int // @ColorValueのwrappedValueの型と変数の型が一致しないといけない @ColorValue var g: Int @ColorValue var b: Int } var color = Color() color.r = 100 print(color.r) // 100 color.g = 999 print(color.g) // 355 color.">
@@ -46,7 +46,7 @@
   <p>PropertyWrapperについて1から勉強。</p>
 <h3 id="一番シンプルなパターン">一番シンプルなパターン</h3>
 <p>まずは一番かんたんな例から。始めは色のRGBを表す場合を考えてみる。それぞれの値は0~255で表されていて、それ範囲外の値が来た場合は範囲に収まるようにしたい。ここではRGBを表すための<code>PropertyWrapper</code>として、<code>ColorValue</code>を定義する。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">@propertyWrapper
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">@propertyWrapper
 <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ColorValue</span> {
     <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> value: Int
 
@@ -83,7 +83,7 @@ print(color.g) <span style="color:#75715e">// 0</span>
 <h3 id="引数をつけられる">引数をつけられる</h3>
 <p>PropertyWrapperは初期化のタイミングで変数を入れることもできる。
 例えばRGBを任意の範囲で表現できるようにしたいとき(ちょっと例が悪い)はこんな感じ。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">UIKit</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">UIKit</span>
 
 @propertyWrapper
 <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ColorValue</span> {
@@ -121,7 +121,7 @@ print(color.r) <span style="color:#75715e">// 1000</span>
 <h3 id="projectedvalueで追加の値を表現">projectedValueで追加の値を表現</h3>
 <p><code>wrappedValue</code>に加えて<code>projectedValue</code>という値を定義することで、変数に機能を追加できるようになる。</p>
 <p>さっきとは全く違う例を出してみる。今回は気温を表すためのPropertyWrapperを作る。このとき、気温の数字に加えて、氷点下かどうかをBoolで取り出したい。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">@propertyWrapper
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">@propertyWrapper
 <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Temperature</span> {
     <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> value: Int
     <span style="color:#66d9ef">var</span> projectedValue: Bool = <span style="color:#66d9ef">false</span>

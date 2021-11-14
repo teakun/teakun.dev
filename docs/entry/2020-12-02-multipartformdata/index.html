@@ -2,7 +2,7 @@
 <html lang="ja">
 <title>multipart/form-data入門 | teakun.dev</title>
 <meta charset="utf-8">
-<meta name="generator" content="Hugo 0.78.2" />
+<meta name="generator" content="Hugo 0.89.2" />
 <meta name="description" content="仕事でmultipart/form-dataでファイルアップロードをする実装することになったけど、どういうものか全然わかっていないので調べる。
 そもそもなにか HTTPのリクエストで複数のデータをまとめて送るための仕組み。 例えば、プロフィールを登録するような場合に、名前と画像をセットでアップロードするようなときに使う。
 header Content-Typeにはこのような指定が入る。
@@ -52,12 +52,12 @@ body bodyの例。1つ目にテキスト、2つ目に画像を送るような場
 例えば、プロフィールを登録するような場合に、名前と画像をセットでアップロードするようなときに使う。</p>
 <h1 id="header">header</h1>
 <p>Content-Typeにはこのような指定が入る。</p>
-<pre><code>Content-Type: multipart/form-data; boundary=--&lt;バウンダリ文字列&gt;\r\n
+<pre tabindex="0"><code>Content-Type: multipart/form-data; boundary=--&lt;バウンダリ文字列&gt;\r\n
 </code></pre><p>バウンダリ文字列というのがミソで、これが送信したい複数のデータの区切りになる。
 なので、この文字列はデータ中には出てこないような無難な乱数が入るのがよい。</p>
 <h1 id="body">body</h1>
 <p>bodyの例。1つ目にテキスト、2つ目に画像を送るような場合で考える。</p>
-<pre><code>--&lt;バウンダリ文字列&gt;\r\n
+<pre tabindex="0"><code>--&lt;バウンダリ文字列&gt;\r\n
 Content-Disposition: form-data; name=&quot;&lt;1つ目の名前&gt;&quot;\r\n
 \r\n
 &lt;1つ目のデータ&gt;
