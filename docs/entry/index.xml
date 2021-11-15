@@ -135,15 +135,5 @@ body bodyの例。1つ目にテキスト、2つ目に画像を送るような場
 しょうもないけど、Hugoでは記事のパスを自分で決めないといけなくて、ここでちょっと悩んだ。 結果的には $HOME/entry/{記事} にした。 どこに悩むポイントがあるかというと、entry の部分。他の候補としてはposts、articlesあたり。 意外とこれ悩みどころじゃない？ 自分は文字数の少なさと何となくの好みでentryにした。 調べてるとこういう記事もあったりする。 でも結局は好みだし好きなやつにしたらいいよね・・・</description>
     </item>
     
-    <item>
-      <title>ブログ作った</title>
-      <link>https://teakun.dev/entry/hoge/</link>
-      <pubDate>Tue, 17 Nov 2020 23:12:32 +0900</pubDate>
-      
-      <guid>https://teakun.dev/entry/hoge/</guid>
-      <description>見出し 自分のブログサイトを作ってみることにします。 よろしくおねがいします。 これはおためし記事です class です
-//おためし let hoge = Class()    </description>
-    </item>
-    
   </channel>
 </rss>
