@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>【flutter】Rowの中に入れたTextを余っているスペースいっぱいに表示したい | teakun.dev</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.89.2" />
+<meta name="description" content="考えるのは以下のようなケース。
+ 3つ要素が並んでいて、左右の要素は左右にピッタリ配置 中間の要素はテキストで可変になっていて、スペースが余っている限りいっぱいに表示したい テキストは左寄せで表示   成功   うまく行ったパターン Row( crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [ Container(), // 先頭の要素  Flexible( child: Container( width: double.infinity, padding: const EdgeInsets.only(left: 8), child: Text( &#34;あああああああああああああああああああああああああああああああああ&#34;, overflow: TextOverflow.ellipsis, ), ), ), Container(), // 末尾の要素  ], ), 中間のTextをFlexibleで囲んで、Containerの幅をdouble.infinityにする。 infinityを指定しているからめいっぱいに広がるけど、Flexibleで囲んでいるから要素がoverflowを起こさない。
+うまく行かなかったパターン Row( crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [ Container(), // 先頭の要素  Flexible( child: Container( width: double.infinity, padding: const EdgeInsets.only(left: 8), child: Text( &#34;あああああああああああああああああああああああああああああああああ&#34;, overflow: TextOverflow.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://teakun.dev/css/index.css">
+<link rel="stylesheet" href="https://teakun.dev/css/classes.css">
+<link rel="stylesheet" href="https://teakun.dev/css/custom.css">
+<link rel="canonical" href="https://teakun.dev/entry/2022-04-21-flutter-text-in-row-layout/">
+<link rel="alternate" type="application/rss+xml" href="" title="teakun.dev">
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2YXDR7FFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z2YXDR7FFP');
+</script>
+
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://teakun.dev/">teakun.dev</a>
+  
+  
+  
+    <div class="hidden description">teakunのブログです</div>
+  
+</header>
+
+<article>
+  <header>
+    <h1>【flutter】Rowの中に入れたTextを余っているスペースいっぱいに表示したい</h1>
+    <time datetime="2022-04-21T00:57:28&#43;09:00">April 21, 2022</time>
+  </header>
+  <p>考えるのは以下のようなケース。</p>
+<ul>
+<li>3つ要素が並んでいて、左右の要素は左右にピッタリ配置</li>
+<li>中間の要素はテキストで可変になっていて、スペースが余っている限りいっぱいに表示したい</li>
+<li>テキストは左寄せで表示</li>
+</ul>
+<figure class="center"><img src="/img/2022-04-21-001.png"/><figcaption>
+            <h4>成功</h4>
+        </figcaption>
+</figure>
+
+<h3 id="うまく行ったパターン">うまく行ったパターン</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">  Row(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Container(), <span style="color:#75715e">// 先頭の要素
+</span><span style="color:#75715e"></span>      Flexible(
+        child: Container(
+          width: <span style="color:#66d9ef">double</span>.infinity,
+          padding: <span style="color:#66d9ef">const</span> EdgeInsets.only(left: <span style="color:#ae81ff">8</span>),
+          child: Text(
+            <span style="color:#e6db74">&#34;あああああああああああああああああああああああああああああああああ&#34;</span>,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
+      Container(), <span style="color:#75715e">// 末尾の要素
+</span><span style="color:#75715e"></span>    ],    
+  ),
+</code></pre></div><p>中間のTextをFlexibleで囲んで、Containerの幅をdouble.infinityにする。
+infinityを指定しているからめいっぱいに広がるけど、Flexibleで囲んでいるから要素がoverflowを起こさない。</p>
+<h3 id="うまく行かなかったパターン">うまく行かなかったパターン</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"> Row(
+   crossAxisAlignment: CrossAxisAlignment.center,
+   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+   children: [
+     Container(), <span style="color:#75715e">// 先頭の要素
+</span><span style="color:#75715e"></span>     Flexible(
+       child: Container(
+         width: <span style="color:#66d9ef">double</span>.infinity,
+         padding: <span style="color:#66d9ef">const</span> EdgeInsets.only(left: <span style="color:#ae81ff">8</span>),
+         child: Text(
+           <span style="color:#e6db74">&#34;あああああああああああああああああああああああああああああああああ&#34;</span>,
+           overflow: TextOverflow.ellipsis,
+         ),
+       ),
+     ),
+     <span style="color:#66d9ef">const</span> Spacer(),
+     Container(), <span style="color:#75715e">// 末尾の要素
+</span><span style="color:#75715e"></span>   ],
+ ),
+</code></pre></div><p>SpacerをRowの要素としてかませばテキストが左寄せになるつもりだったが、Rowの中に入れた要素のスペースが想定通りに入らなかった。
+Rowで指定しているspaceBetweenがSpacerが入ったときに余計なことをしていそう。</p>
+<figure class="center"><img src="/img/2022-04-21-002.png"/><figcaption>
+            <h4>うまくレイアウトができず変なスペースが生まれている様子</h4>
+        </figcaption>
+</figure>
+
+
+</article>
+
+
+
+</body>
+
+</html>

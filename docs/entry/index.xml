@@ -6,7 +6,18 @@
     <description>Recent content in Entries on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Fri, 31 Dec 2021 12:50:04 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 21 Apr 2022 00:57:28 +0900</lastBuildDate><atom:link href="https://teakun.dev/entry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【flutter】Rowの中に入れたTextを余っているスペースいっぱいに表示したい</title>
+      <link>https://teakun.dev/entry/2022-04-21-flutter-text-in-row-layout/</link>
+      <pubDate>Thu, 21 Apr 2022 00:57:28 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/2022-04-21-flutter-text-in-row-layout/</guid>
+      <description>考えるのは以下のようなケース。
+ 3つ要素が並んでいて、左右の要素は左右にピッタリ配置 中間の要素はテキストで可変になっていて、スペースが余っている限りいっぱいに表示したい テキストは左寄せで表示   成功   うまく行ったパターン Row( crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [ Container(), // 先頭の要素  Flexible( child: Container( width: double.infinity, padding: const EdgeInsets.only(left: 8), child: Text( &amp;#34;あああああああああああああああああああああああああああああああああ&amp;#34;, overflow: TextOverflow.ellipsis, ), ), ), Container(), // 末尾の要素  ], ), 中間のTextをFlexibleで囲んで、Containerの幅をdouble.infinityにする。 infinityを指定しているからめいっぱいに広がるけど、Flexibleで囲んでいるから要素がoverflowを起こさない。
+うまく行かなかったパターン Row( crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [ Container(), // 先頭の要素  Flexible( child: Container( width: double.infinity, padding: const EdgeInsets.only(left: 8), child: Text( &amp;#34;あああああああああああああああああああああああああああああああああ&amp;#34;, overflow: TextOverflow.</description>
+    </item>
+    
     <item>
       <title>2021</title>
       <link>https://teakun.dev/entry/2021-12-31-2021/</link>
