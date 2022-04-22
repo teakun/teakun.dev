@@ -6,7 +6,20 @@
     <description>Recent content on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Thu, 21 Apr 2022 00:57:28 +0900</lastBuildDate><atom:link href="https://teakun.dev/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 22 Apr 2022 23:02:49 +0900</lastBuildDate><atom:link href="https://teakun.dev/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>@IBOutletで接続するときweakを付けるべきなのか</title>
+      <link>https://teakun.dev/entry/2022-04-22-iboutlet-strong-good/</link>
+      <pubDate>Fri, 22 Apr 2022 23:02:49 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/2022-04-22-iboutlet-strong-good/</guid>
+      <description>よくあるこういうコードで、weakを付けるべきか付けないべきか。
+@IBOutlet weak var newButton: UIButton! swiftformatを導入するにあたってこのルールを入れるべきかという議論になったが、weakの有無によってどのような違いがあるのかわからなかったので調べてみる。
+そもそも付ける付けないでどのような違いがあるかを調べる。(参考)
+ weak付ける(弱参照, weak)  removeFromSuperviewしたタイミングでviewが開放される 弱参照なのでretaincountがなくなって開放される   weak付けない(強参照, strong)  removeFromSuperviewしてもviewが開放されない weakが付いていないのでviewへの参照が残っている    合わせて、swiftformatのルール説明に公式の動画へのリンクがあるのでそれをちゃんと見る。 公式は基本的にIBOutletを接続するときは強参照にすることを推奨している。 https://developer.apple.com/videos/play/wwdc2015/407/ (32:30〜あたり)
+ In general you should make your outlet strong, especially if you are connecting an outlet to a sub view or to a constraint that&amp;rsquo;s not always going to be retained by the view hierarchy. The only time you really need to make an outlet weak is if you have a custom view that references something back up the view hierarchy and in general that&amp;rsquo;s not recommended.</description>
+    </item>
+    
     <item>
       <title>【flutter】Rowの中に入れたTextを余っているスペースいっぱいに表示したい</title>
       <link>https://teakun.dev/entry/2022-04-21-flutter-text-in-row-layout/</link>

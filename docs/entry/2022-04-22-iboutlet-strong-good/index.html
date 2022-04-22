@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>@IBOutletで接続するときweakを付けるべきなのか | teakun.dev</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.89.2" />
+<meta name="description" content="よくあるこういうコードで、weakを付けるべきか付けないべきか。
+@IBOutlet weak var newButton: UIButton! swiftformatを導入するにあたってこのルールを入れるべきかという議論になったが、weakの有無によってどのような違いがあるのかわからなかったので調べてみる。
+そもそも付ける付けないでどのような違いがあるかを調べる。(参考)
+ weak付ける(弱参照, weak)  removeFromSuperviewしたタイミングでviewが開放される 弱参照なのでretaincountがなくなって開放される   weak付けない(強参照, strong)  removeFromSuperviewしてもviewが開放されない weakが付いていないのでviewへの参照が残っている    合わせて、swiftformatのルール説明に公式の動画へのリンクがあるのでそれをちゃんと見る。 公式は基本的にIBOutletを接続するときは強参照にすることを推奨している。 https://developer.apple.com/videos/play/wwdc2015/407/ (32:30〜あたり)
+ In general you should make your outlet strong, especially if you are connecting an outlet to a sub view or to a constraint that&rsquo;s not always going to be retained by the view hierarchy. The only time you really need to make an outlet weak is if you have a custom view that references something back up the view hierarchy and in general that&rsquo;s not recommended.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://teakun.dev/css/index.css">
+<link rel="stylesheet" href="https://teakun.dev/css/classes.css">
+<link rel="stylesheet" href="https://teakun.dev/css/custom.css">
+<link rel="canonical" href="https://teakun.dev/entry/2022-04-22-iboutlet-strong-good/">
+<link rel="alternate" type="application/rss+xml" href="" title="teakun.dev">
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2YXDR7FFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z2YXDR7FFP');
+</script>
+
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://teakun.dev/">teakun.dev</a>
+  
+  
+  
+    <div class="hidden description">teakunのブログです</div>
+  
+</header>
+
+<article>
+  <header>
+    <h1>@IBOutletで接続するときweakを付けるべきなのか</h1>
+    <time datetime="2022-04-22T23:02:49&#43;09:00">April 22, 2022</time>
+  </header>
+  <p>よくあるこういうコードで、weakを付けるべきか付けないべきか。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">@IBOutlet</span> <span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">var</span> newButton: UIButton!
+</code></pre></div><p>swiftformatを導入するにあたって<a href="https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#strongoutlets">このルール</a>を入れるべきかという議論になったが、weakの有無によってどのような違いがあるのかわからなかったので調べてみる。</p>
+<p>そもそも付ける付けないでどのような違いがあるかを調べる。(<a href="https://qiita.com/chocovayashi/items/a96adc1356b7c45524b7">参考</a>)</p>
+<ul>
+<li>weak付ける(弱参照, weak)
+<ul>
+<li>removeFromSuperviewしたタイミングでviewが開放される</li>
+<li>弱参照なのでretaincountがなくなって開放される</li>
+</ul>
+</li>
+<li>weak付けない(強参照, strong)
+<ul>
+<li>removeFromSuperviewしてもviewが開放されない</li>
+<li>weakが付いていないのでviewへの参照が残っている</li>
+</ul>
+</li>
+</ul>
+<p>合わせて、swiftformatのルール説明に公式の動画へのリンクがあるのでそれをちゃんと見る。
+公式は基本的にIBOutletを接続するときは強参照にすることを推奨している。
+<a href="https://developer.apple.com/videos/play/wwdc2015/407/">https://developer.apple.com/videos/play/wwdc2015/407/</a> (32:30〜あたり)</p>
+<blockquote>
+<p>In general you should make your outlet strong, especially if you are connecting an outlet to a sub view or to a constraint that&rsquo;s not always going to be retained by the view hierarchy. The only time you really need to make an outlet weak is if you have a custom view that references something back up the view hierarchy and in general that&rsquo;s not recommended. So I&rsquo;m going to choose strong and I will click connect which will generate my outlet.</p>
+</blockquote>
+<blockquote>
+<p>The only time you really need to make an outlet weak is if you have a custom view that references something back up the view hierarchy and in general that&rsquo;s not recommended.</p>
+</blockquote>
+<p>この部分がミソ。
+IBOutletの要素が親のViewControllerなど遡って参照を持つケースでは、強参照でIBOutletの要素を持ってしまうと循環参照を起こしてメモリリークしそう。
+それ以外のケースではちゃんと開放されるから、removeしてもIBOutletのviewが開放されないように基本は強参照にしておくのがよいと言っているのだと思う。
+これまでずっとweakで書いてきたけど、そもそもIBOutletで接続した要素をViewControllerからremoveすることがないのでweakにしても別に困ることがなかった。</p>
+<p>ということで、基本はstrong、viewから親に遡るケースがある場合はweakにしておくのがよいみたいです。間違ってたら教えて下さい。</p>
+
+</article>
+
+
+
+</body>
+
+</html>
