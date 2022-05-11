@@ -1,5 +1,5 @@
 ---
-title: "@IBOutletで接続するときweakを付けるべきなのか"
+title: "@IBOutletにはweakを付けるべきなのか"
 date: 2022-04-22T23:02:49+09:00
 draft: false
 ---

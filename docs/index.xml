@@ -6,9 +6,20 @@
     <description>Recent content on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Fri, 22 Apr 2022 23:02:49 +0900</lastBuildDate><atom:link href="https://teakun.dev/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 May 2022 23:32:34 +0900</lastBuildDate><atom:link href="https://teakun.dev/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>@IBOutletで接続するときweakを付けるべきなのか</title>
+      <title>XcodeのカスタムテンプレートがSwiftPMの中で使えなかったので直す</title>
+      <link>https://teakun.dev/entry/2022-05-11-xcode-template-in-swiftpm/</link>
+      <pubDate>Wed, 11 May 2022 23:32:34 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/2022-05-11-xcode-template-in-swiftpm/</guid>
+      <description>Xcodeでの開発効率向上のために用意したカスタムテンプレートが、ローカルに置いたSwiftPMの中で使えない問題があったのでそれに対応したメモ。 自分の場合、ローカルにおいたSwiftPMはマルチモジュール構成のために用意したもの。
+前提  環境  Xcode13.3.1   起きていた問題  ローカルに置いたSwiftPMのSourceに対してNew File → Choose a template your new fileで表示されるテンプレートの一覧に独自のテンプレートが表示されない アプリ本体に対してテンプレートを選択しようとする場合は、独自に用意したテンプレートは表示される (テンプレートの追加は概ねこの記事のとおりにやっている https://zenn.dev/paraches/articles/xcode-custom-template)    原因・対応 SwiftPMの中でテンプレートを利用したい場合は、TemplateInfo.plistに専用のパラメータを追加しておく必要があった。 SupportsSwiftPackageというパラメータがあるのでこれをtrueにしておくとSwiftPMからもカスタムテンプレートが利用できる。
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; &amp;lt;key&amp;gt;SupportsSwiftPackage&amp;lt;/key&amp;gt; &amp;lt;true/&amp;gt; … &amp;lt;/dict&amp;gt; &amp;lt;/plist&amp;gt; 独自に追加したテンプレートだけが表示されないのが不思議でデフォルトで用意されているコードテンプレートを覗いてみたところ、いかにも怪しいパラメータを見つけることができて解決した。 デフォルトのテンプレートは/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File\ Templates/にあるのでこれを参考にする。 Template.infoの書き方をちゃんと理解したかったけど、公式のドキュメントがないようでちょっと厳しい。。</description>
+    </item>
+    
+    <item>
+      <title>@IBOutletにはweakを付けるべきなのか</title>
       <link>https://teakun.dev/entry/2022-04-22-iboutlet-strong-good/</link>
       <pubDate>Fri, 22 Apr 2022 23:02:49 +0900</pubDate>
       

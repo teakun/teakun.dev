@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>XcodeのカスタムテンプレートがSwiftPMの中で使えなかったので直す | teakun.dev</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.89.2" />
+<meta name="description" content="Xcodeでの開発効率向上のために用意したカスタムテンプレートが、ローカルに置いたSwiftPMの中で使えない問題があったのでそれに対応したメモ。 自分の場合、ローカルにおいたSwiftPMはマルチモジュール構成のために用意したもの。
+前提  環境  Xcode13.3.1   起きていた問題  ローカルに置いたSwiftPMのSourceに対してNew File → Choose a template your new fileで表示されるテンプレートの一覧に独自のテンプレートが表示されない アプリ本体に対してテンプレートを選択しようとする場合は、独自に用意したテンプレートは表示される (テンプレートの追加は概ねこの記事のとおりにやっている https://zenn.dev/paraches/articles/xcode-custom-template)    原因・対応 SwiftPMの中でテンプレートを利用したい場合は、TemplateInfo.plistに専用のパラメータを追加しておく必要があった。 SupportsSwiftPackageというパラメータがあるのでこれをtrueにしておくとSwiftPMからもカスタムテンプレートが利用できる。
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt; &lt;plist version=&#34;1.0&#34;&gt; &lt;dict&gt; &lt;key&gt;SupportsSwiftPackage&lt;/key&gt; &lt;true/&gt; … &lt;/dict&gt; &lt;/plist&gt; 独自に追加したテンプレートだけが表示されないのが不思議でデフォルトで用意されているコードテンプレートを覗いてみたところ、いかにも怪しいパラメータを見つけることができて解決した。 デフォルトのテンプレートは/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File\ Templates/にあるのでこれを参考にする。 Template.infoの書き方をちゃんと理解したかったけど、公式のドキュメントがないようでちょっと厳しい。。">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://teakun.dev/css/index.css">
+<link rel="stylesheet" href="https://teakun.dev/css/classes.css">
+<link rel="stylesheet" href="https://teakun.dev/css/custom.css">
+<link rel="canonical" href="https://teakun.dev/entry/2022-05-11-xcode-template-in-swiftpm/">
+<link rel="alternate" type="application/rss+xml" href="" title="teakun.dev">
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2YXDR7FFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z2YXDR7FFP');
+</script>
+
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://teakun.dev/">teakun.dev</a>
+  
+  
+  
+    <div class="hidden description">teakunのブログです</div>
+  
+</header>
+
+<article>
+  <header>
+    <h1>XcodeのカスタムテンプレートがSwiftPMの中で使えなかったので直す</h1>
+    <time datetime="2022-05-11T23:32:34&#43;09:00">May 11, 2022</time>
+  </header>
+  <p>Xcodeでの開発効率向上のために用意したカスタムテンプレートが、ローカルに置いたSwiftPMの中で使えない問題があったのでそれに対応したメモ。
+自分の場合、ローカルにおいたSwiftPMはマルチモジュール構成のために用意したもの。</p>
+<h3 id="前提">前提</h3>
+<ul>
+<li>環境
+<ul>
+<li>Xcode13.3.1</li>
+</ul>
+</li>
+<li>起きていた問題
+<ul>
+<li>ローカルに置いたSwiftPMのSourceに対してNew File → Choose a template your new fileで表示されるテンプレートの一覧に独自のテンプレートが表示されない</li>
+<li>アプリ本体に対してテンプレートを選択しようとする場合は、独自に用意したテンプレートは表示される</li>
+<li>(テンプレートの追加は概ねこの記事のとおりにやっている <a href="https://zenn.dev/paraches/articles/xcode-custom-template">https://zenn.dev/paraches/articles/xcode-custom-template</a>)</li>
+</ul>
+</li>
+</ul>
+<h3 id="原因対応">原因・対応</h3>
+<p>SwiftPMの中でテンプレートを利用したい場合は、TemplateInfo.plistに専用のパラメータを追加しておく必要があった。
+<code>SupportsSwiftPackage</code>というパラメータがあるのでこれをtrueにしておくとSwiftPMからもカスタムテンプレートが利用できる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
+<span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;dict&gt;</span>
+	<span style="color:#f92672">&lt;key&gt;</span>SupportsSwiftPackage<span style="color:#f92672">&lt;/key&gt;</span>
+	<span style="color:#f92672">&lt;true/&gt;</span>
+    …
+<span style="color:#f92672">&lt;/dict&gt;</span>
+<span style="color:#f92672">&lt;/plist&gt;</span>
+</code></pre></div><p>独自に追加したテンプレートだけが表示されないのが不思議でデフォルトで用意されているコードテンプレートを覗いてみたところ、いかにも怪しいパラメータを見つけることができて解決した。
+デフォルトのテンプレートは<code>/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File\ Templates/</code>にあるのでこれを参考にする。
+Template.infoの書き方をちゃんと理解したかったけど、公式のドキュメントがないようでちょっと厳しい。。</p>
+
+</article>
+
+
+
+</body>
+
+</html>
