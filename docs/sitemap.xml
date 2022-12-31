@@ -2,11 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://teakun.dev/entry/2022-12-29-2022/</loc>
+    <lastmod>2022-12-29T14:55:58+09:00</lastmod>
+  </url><url>
     <loc>https://teakun.dev/entry/</loc>
-    <lastmod>2022-05-11T23:32:34+09:00</lastmod>
+    <lastmod>2022-12-29T14:55:58+09:00</lastmod>
   </url><url>
     <loc>https://teakun.dev/</loc>
-    <lastmod>2022-05-11T23:32:34+09:00</lastmod>
+    <lastmod>2022-12-29T14:55:58+09:00</lastmod>
   </url><url>
     <loc>https://teakun.dev/entry/2022-05-11-xcode-template-in-swiftpm/</loc>
     <lastmod>2022-05-11T23:32:34+09:00</lastmod>
@@ -37,9 +40,6 @@
   </url><url>
     <loc>https://teakun.dev/entry/2020-12-31-2020/</loc>
     <lastmod>2020-12-31T22:09:42+09:00</lastmod>
-  </url><url>
-    <loc>https://teakun.dev/entry/2020-12-13-hiden/</loc>
-    <lastmod>2020-12-13T18:00:00+09:00</lastmod>
   </url><url>
     <loc>https://teakun.dev/entry/2020-12-08-swift-propertywrapper/</loc>
     <lastmod>2020-12-08T00:48:36+09:00</lastmod>
