@@ -1,5 +1,5 @@
 ---
-title: "詳解SwiftPM"
+title: "SwiftPackageManager再入門"
 date: 2023-01-08T22:12:03+09:00
 draft: false
 ---
