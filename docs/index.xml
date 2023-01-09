@@ -6,7 +6,28 @@
     <description>Recent content on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Thu, 29 Dec 2022 14:55:58 +0900</lastBuildDate><atom:link href="https://teakun.dev/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 08 Jan 2023 22:12:03 +0900</lastBuildDate><atom:link href="https://teakun.dev/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>詳解SwiftPM</title>
+      <link>https://teakun.dev/entry/2023-01-08-detail-of-swiftpm/</link>
+      <pubDate>Sun, 08 Jan 2023 22:12:03 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/2023-01-08-detail-of-swiftpm/</guid>
+      <description>Swift Package Manager (以下SwiftPM)中心の構成が最近流行っているが、そのためにはSwiftPMの仕組みや用語を改めてしっかりと理解しておきたい。 公式のドキュメントを参考にしつつ自分が知っていることをまとめてみる。
+SwiftPMとは 概要 SwiftPMとはなにか。公式サイトにはこのようにある。
+ Swift Package Manager は、Swift コードの配布を管理するためのツールです。依存関係のダウンロード、コンパイル、およびリンクのプロセスを自動化するために、Swiftビルドシステムと統合されています。
+ SwiftPM自体はツールの名前で、基本的には他の人が作ったライブラリの導入・管理に利用される。 SwiftPMはSwiftにデフォルトでついてくるので余計な外部ツールを入れる必要がないのが嬉しい。 これまではGitHubなどで配布されているライブラリを使うためにはcocoapodsやcarthageなど、外部のツールを利用するのが一般的だった。 出たばかりの頃は不安定だったがだいぶ安定してきてきており、最近はほぼデファクトスタンダートと言ってよい状態。
+基本的な概念 Module importができる単位。SwiftPMによらずcocoapodsやcarthageでもModuleが作られる。 SwiftPMの公式のドキュメントを読んでいるとModuleという言葉が頻発するけどSwiftPMのクラスにModuleというのは存在しない。
+Package SwiftPMにおける一番大きな単位。PackageはソースファイルとPackage.swiftと呼ばれるマニフェストファイルから構成される。 パッケージは1つ以上のTargetを持っている。
+Target コードを1つにまとめた単位。この単位で名前空間ができて、どの部分を外部から使えるようにするかを決める。publicを付与したものが外部から参照できる。 Target同士は依存関係を持つことができる。SwiftPMにおいてはModuleに近い存在。 Module/Product/Targetの関係がややこしいなと思っているけどフォーラムに同じようなことを質問している人がいた。
+Products Packageが提供するものを定義して、他のパッケージから見えるようにしたもの。定義できる種類は以下の3種類。
+ Library: 大体がこれ、コードをライブラリとして提供する場合はこちら。 Plugin: ビルドツールなど。Swiftlintなどの。 Executable: これは使ったことない。実行ファイル？  Dependency モジュール(Target)間の依存関係のこと。依存関係はさらに依存関係を持つことができる。 この依存関係は循環してはいけない。
+導入 SwiftPMで提供されている外部のライブラリを利用したいとき、導入方法は大きく分けて2つある。
+ Xcodeのプロジェクト上から追加 ローカルで追加したSwiftPMのPackage経由で追加  一般的に紹介される方法は1で、ネットで検索すると基本的にはこれが紹介されている。 これはXcode上からポチポチするだけなので非常に簡単。 詳細なやり方はこのあたりが詳しい。
+SwiftPM中心の構成にする場合は基本的に2を採用することになる。 1の方法だとライブラリを追加したときの変更がxcodeprojに反映されるので変更の差分が読みにくいが、2だとPackage.swiftに反映されるので変更が追いやすい。 1の方法はネットを探せばいっぱいでてくるのでこの記事では2の導入方法を紹介する。
+プロジェクトへのSwiftPMの追加 プロジェクトにSwiftPMのPackageを追加するところまでを紹介。 まずは対象のプロジェクト上でNew→Packageを選択。  適当な名前をつけて、Add toとGroupにプロジェクト名を選択してCreateする。  これでプロジェクト上にSwiftPMのPackageが配置される。  次はプロジェクト側からSwiftPMのモジュールを参照する設定を追加する。 xcodeproj → targets → general → Framework, Libraries, and Embedded Contentで+を選択、作ったモジュールを選択して追加。  ここまででプロジェクトからローカルにおいたSwiftPMのPackageを扱う環境が最低限整った。 あとはPackageに対してモジュール・外部のライブラリを追加すればよしなにプロジェクト側から利用することができる。</description>
+    </item>
+    
     <item>
       <title>2022</title>
       <link>https://teakun.dev/entry/2022-12-29-2022/</link>

@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://teakun.dev/entry/2022-12-29-2022/</loc>
-    <lastmod>2022-12-29T14:55:58+09:00</lastmod>
-  </url><url>
     <loc>https://teakun.dev/entry/</loc>
-    <lastmod>2022-12-29T14:55:58+09:00</lastmod>
+    <lastmod>2023-01-08T22:12:03+09:00</lastmod>
   </url><url>
     <loc>https://teakun.dev/</loc>
+    <lastmod>2023-01-08T22:12:03+09:00</lastmod>
+  </url><url>
+    <loc>https://teakun.dev/entry/2023-01-08-detail-of-swiftpm/</loc>
+    <lastmod>2023-01-08T22:12:03+09:00</lastmod>
+  </url><url>
+    <loc>https://teakun.dev/entry/2022-12-29-2022/</loc>
     <lastmod>2022-12-29T14:55:58+09:00</lastmod>
   </url><url>
     <loc>https://teakun.dev/entry/2022-05-11-xcode-template-in-swiftpm/</loc>

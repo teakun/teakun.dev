@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>詳解SwiftPM | teakun.dev</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.89.2" />
+<meta name="description" content="Swift Package Manager (以下SwiftPM)中心の構成が最近流行っているが、そのためにはSwiftPMの仕組みや用語を改めてしっかりと理解しておきたい。 公式のドキュメントを参考にしつつ自分が知っていることをまとめてみる。
+SwiftPMとは 概要 SwiftPMとはなにか。公式サイトにはこのようにある。
+ Swift Package Manager は、Swift コードの配布を管理するためのツールです。依存関係のダウンロード、コンパイル、およびリンクのプロセスを自動化するために、Swiftビルドシステムと統合されています。
+ SwiftPM自体はツールの名前で、基本的には他の人が作ったライブラリの導入・管理に利用される。 SwiftPMはSwiftにデフォルトでついてくるので余計な外部ツールを入れる必要がないのが嬉しい。 これまではGitHubなどで配布されているライブラリを使うためにはcocoapodsやcarthageなど、外部のツールを利用するのが一般的だった。 出たばかりの頃は不安定だったがだいぶ安定してきてきており、最近はほぼデファクトスタンダートと言ってよい状態。
+基本的な概念 Module importができる単位。SwiftPMによらずcocoapodsやcarthageでもModuleが作られる。 SwiftPMの公式のドキュメントを読んでいるとModuleという言葉が頻発するけどSwiftPMのクラスにModuleというのは存在しない。
+Package SwiftPMにおける一番大きな単位。PackageはソースファイルとPackage.swiftと呼ばれるマニフェストファイルから構成される。 パッケージは1つ以上のTargetを持っている。
+Target コードを1つにまとめた単位。この単位で名前空間ができて、どの部分を外部から使えるようにするかを決める。publicを付与したものが外部から参照できる。 Target同士は依存関係を持つことができる。SwiftPMにおいてはModuleに近い存在。 Module/Product/Targetの関係がややこしいなと思っているけどフォーラムに同じようなことを質問している人がいた。
+Products Packageが提供するものを定義して、他のパッケージから見えるようにしたもの。定義できる種類は以下の3種類。
+ Library: 大体がこれ、コードをライブラリとして提供する場合はこちら。 Plugin: ビルドツールなど。Swiftlintなどの。 Executable: これは使ったことない。実行ファイル？  Dependency モジュール(Target)間の依存関係のこと。依存関係はさらに依存関係を持つことができる。 この依存関係は循環してはいけない。
+導入 SwiftPMで提供されている外部のライブラリを利用したいとき、導入方法は大きく分けて2つある。
+ Xcodeのプロジェクト上から追加 ローカルで追加したSwiftPMのPackage経由で追加  一般的に紹介される方法は1で、ネットで検索すると基本的にはこれが紹介されている。 これはXcode上からポチポチするだけなので非常に簡単。 詳細なやり方はこのあたりが詳しい。
+SwiftPM中心の構成にする場合は基本的に2を採用することになる。 1の方法だとライブラリを追加したときの変更がxcodeprojに反映されるので変更の差分が読みにくいが、2だとPackage.swiftに反映されるので変更が追いやすい。 1の方法はネットを探せばいっぱいでてくるのでこの記事では2の導入方法を紹介する。
+プロジェクトへのSwiftPMの追加 プロジェクトにSwiftPMのPackageを追加するところまでを紹介。 まずは対象のプロジェクト上でNew→Packageを選択。  適当な名前をつけて、Add toとGroupにプロジェクト名を選択してCreateする。  これでプロジェクト上にSwiftPMのPackageが配置される。  次はプロジェクト側からSwiftPMのモジュールを参照する設定を追加する。 xcodeproj → targets → general → Framework, Libraries, and Embedded Contentで&#43;を選択、作ったモジュールを選択して追加。  ここまででプロジェクトからローカルにおいたSwiftPMのPackageを扱う環境が最低限整った。 あとはPackageに対してモジュール・外部のライブラリを追加すればよしなにプロジェクト側から利用することができる。">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://teakun.dev/css/index.css">
+<link rel="stylesheet" href="https://teakun.dev/css/classes.css">
+<link rel="stylesheet" href="https://teakun.dev/css/custom.css">
+<link rel="canonical" href="https://teakun.dev/entry/2023-01-08-detail-of-swiftpm/">
+<link rel="alternate" type="application/rss+xml" href="" title="teakun.dev">
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2YXDR7FFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z2YXDR7FFP');
+</script>
+
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://teakun.dev/">teakun.dev</a>
+  
+  
+  
+    <div class="hidden description">teakunのブログです</div>
+  
+</header>
+
+<article>
+  <header>
+    <h1>詳解SwiftPM</h1>
+    <time datetime="2023-01-08T22:12:03&#43;09:00">January 08, 2023</time>
+  </header>
+  <p>Swift Package Manager (以下SwiftPM)中心の構成が最近流行っているが、そのためにはSwiftPMの仕組みや用語を改めてしっかりと理解しておきたい。
+公式のドキュメントを参考にしつつ自分が知っていることをまとめてみる。</p>
+<h1 id="swiftpmとは">SwiftPMとは</h1>
+<h2 id="概要">概要</h2>
+<p>SwiftPMとはなにか。公式サイトにはこのようにある。</p>
+<blockquote>
+<p>Swift Package Manager は、Swift コードの配布を管理するためのツールです。依存関係のダウンロード、コンパイル、およびリンクのプロセスを自動化するために、Swiftビルドシステムと統合されています。</p>
+</blockquote>
+<p>SwiftPM自体はツールの名前で、基本的には他の人が作ったライブラリの導入・管理に利用される。
+SwiftPMはSwiftにデフォルトでついてくるので余計な外部ツールを入れる必要がないのが嬉しい。
+これまではGitHubなどで配布されているライブラリを使うためにはcocoapodsやcarthageなど、外部のツールを利用するのが一般的だった。
+出たばかりの頃は不安定だったがだいぶ安定してきてきており、最近はほぼデファクトスタンダートと言ってよい状態。</p>
+<h1 id="基本的な概念">基本的な概念</h1>
+<h2 id="module">Module</h2>
+<p><a href="https://speakerdeck.com/d_date/swift-package-centered-project-build-and-practice?slide=19">importができる単位</a>。SwiftPMによらずcocoapodsやcarthageでもModuleが作られる。
+SwiftPMの公式のドキュメントを読んでいるとModuleという言葉が頻発するけどSwiftPMのクラスにModuleというのは存在しない。</p>
+<h2 id="packagehttpsdeveloperapplecomdocumentationpackagedescriptionpackage"><a href="https://developer.apple.com/documentation/packagedescription/package">Package</a></h2>
+<p>SwiftPMにおける一番大きな単位。PackageはソースファイルとPackage.swiftと呼ばれるマニフェストファイルから構成される。
+パッケージは1つ以上のTargetを持っている。</p>
+<h2 id="targethttpsdeveloperapplecomdocumentationpackagedescriptiontarget"><a href="https://developer.apple.com/documentation/packagedescription/target">Target</a></h2>
+<p>コードを1つにまとめた単位。この単位で名前空間ができて、どの部分を外部から使えるようにするかを決める。publicを付与したものが外部から参照できる。
+Target同士は依存関係を持つことができる。SwiftPMにおいてはModuleに近い存在。
+Module/Product/Targetの関係がややこしいなと思っているけど<a href="https://forums.swift.org/t/module-vs-product-vs-target/27640">フォーラム</a>に同じようなことを質問している人がいた。</p>
+<h2 id="productshttpsdeveloperapplecomdocumentationpackagedescriptionproduct"><a href="https://developer.apple.com/documentation/packagedescription/product">Products</a></h2>
+<p>Packageが提供するものを定義して、他のパッケージから見えるようにしたもの。定義できる種類は以下の3種類。</p>
+<ul>
+<li>Library: 大体がこれ、コードをライブラリとして提供する場合はこちら。</li>
+<li>Plugin: ビルドツールなど。Swiftlintなどの。</li>
+<li>Executable: これは使ったことない。実行ファイル？</li>
+</ul>
+<h2 id="dependencyhttpsdeveloperapplecomdocumentationpackagedescriptiontargetdependency"><a href="https://developer.apple.com/documentation/packagedescription/target/dependency">Dependency</a></h2>
+<p>モジュール(Target)間の依存関係のこと。依存関係はさらに依存関係を持つことができる。
+この依存関係は循環してはいけない。</p>
+<h1 id="導入">導入</h1>
+<p>SwiftPMで提供されている外部のライブラリを利用したいとき、導入方法は大きく分けて2つある。</p>
+<ol>
+<li>Xcodeのプロジェクト上から追加</li>
+<li>ローカルで追加したSwiftPMのPackage経由で追加</li>
+</ol>
+<p>一般的に紹介される方法は1で、ネットで検索すると基本的にはこれが紹介されている。
+これはXcode上からポチポチするだけなので非常に簡単。
+詳細なやり方は<a href="https://qiita.com/hironytic/items/09a4c16857b409c17d2c">このあたり</a>が詳しい。</p>
+<p>SwiftPM中心の構成にする場合は基本的に2を採用することになる。
+1の方法だとライブラリを追加したときの変更がxcodeprojに反映されるので変更の差分が読みにくいが、2だとPackage.swiftに反映されるので変更が追いやすい。
+1の方法はネットを探せばいっぱいでてくるのでこの記事では2の導入方法を紹介する。</p>
+<h2 id="プロジェクトへのswiftpmの追加">プロジェクトへのSwiftPMの追加</h2>
+<p>プロジェクトにSwiftPMのPackageを追加するところまでを紹介。
+まずは対象のプロジェクト上でNew→Packageを選択。
+<figure class="center"><img src="/img/2023-01-08-001.png"/>
+</figure>
+
+適当な名前をつけて、Add toとGroupにプロジェクト名を選択してCreateする。
+<figure class="center"><img src="/img/2023-01-08-002.png"/>
+</figure>
+
+これでプロジェクト上にSwiftPMのPackageが配置される。
+<figure class="center"><img src="/img/2023-01-08-003.png"/>
+</figure>
+
+次はプロジェクト側からSwiftPMのモジュールを参照する設定を追加する。
+xcodeproj → targets → general → Framework, Libraries, and Embedded Contentで+を選択、作ったモジュールを選択して追加。
+<figure class="center"><img src="/img/2023-01-08-004.png"/>
+</figure>
+
+ここまででプロジェクトからローカルにおいたSwiftPMのPackageを扱う環境が最低限整った。
+あとはPackageに対してモジュール・外部のライブラリを追加すればよしなにプロジェクト側から利用することができる。</p>
+<h1 id="packageの構成要素">Packageの構成要素</h1>
+<p>SwiftPMのPackageは大きく<code>Package.swift</code>, <code>Sources</code>, <code>Tests</code>の3つの要素でできている。</p>
+<ul>
+<li><code>Package.swift</code>
+<ul>
+<li>マニフェストファイル。パッケージの設定や構成要素について記述するところ。</li>
+</ul>
+</li>
+<li><code>Sources</code>
+<ul>
+<li>ソースコード本体。Package.swiftで記述した内容に従ってディレクトリの構造を作る必要がある。</li>
+</ul>
+</li>
+<li><code>Tests</code>
+<ul>
+<li>テスト。</li>
+</ul>
+</li>
+</ul>
+<h2 id="packageswiftの読み方">Package.swiftの読み方</h2>
+<p><a href="https://developer.apple.com/documentation/packagedescription/package">公式のドキュメント</a>が詳しいのでそこから引用する。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#75715e">// swift-tools-version:5.3</span>
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">PackageDescription</span>
+
+<span style="color:#66d9ef">let</span> package = Package(
+    name: <span style="color:#e6db74">&#34;MyLibrary&#34;</span>,
+    platforms: [
+        .macOS(.v10_15),
+    ],
+    products: [
+        .library(name: <span style="color:#e6db74">&#34;MyLibrary&#34;</span>, targets: [<span style="color:#e6db74">&#34;MyLibrary&#34;</span>])
+    ],
+    dependencies: [
+        .package(url: <span style="color:#e6db74">&#34;https://url/of/another/package/named/utility&#34;</span>, from: <span style="color:#e6db74">&#34;1.0.0&#34;</span>)
+    ],
+    targets: [
+        .target(name: <span style="color:#e6db74">&#34;MyLibrary&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;Utility&#34;</span>]),
+        .testTarget(name: <span style="color:#e6db74">&#34;MyLibraryTests&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;MyLibrary&#34;</span>])
+    ]
+)
+</code></pre></div><ul>
+<li><code>name</code>: このパッケージの名前。</li>
+<li><code>platforms</code>: このパッケージがサポートしているOSの種類、バージョンの指定</li>
+<li><code>products</code>: このパッケージが提供するもの。ここで定義したlibraryが外部からモジュールとして参照できる。</li>
+<li><code>dependencies</code>: このパッケージが依存している外部のパッケージ。githubに加えて、ローカルに配置した他のパッケージを参照したい場合などもここから。</li>
+<li><code>targets</code>: コードを1つにまとめた単位。ここで指定するnameと同じディレクトリが<code>Sources/</code>以下に存在している必要がある。target間の依存関係もここで定義できる。</li>
+</ul>
+<p>そのほかPackage.swiftについて知っておくと良さそうなことを紹介。</p>
+<h3 id="packageswiftはswiftファイルである">Package.swiftはswiftファイルである</h3>
+<p>当たり前だけどPackage.swiftはswiftファイルである。そのため文字列などを変数として定義したりもできる。気を抜くと固定の文字列ばかりになってしまうので適度に変数に置き換えたりして可読性を上げて行きましょう。</p>
+<h3 id="targetのディレクトリはパス指定できる">targetのディレクトリはパス指定できる</h3>
+<p>何もしないと<code>Sources/</code>以下にディレクトリが存在する設定になってしまうが、明示的にパスを指定すると任意のディレクトリを参照できるようになる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">.target(
+    name: <span style="color:#e6db74">&#34;FirstFeatureModule&#34;</span>,
+    dependencies: [],
+    path: <span style="color:#e6db74">&#34;Sources/Feature/First&#34;</span>
+),
+</code></pre></div><p>パスを指定することで関連するパッケージの配置をまとめたりできる。これが役に立つケースとして、lintやformatの対象を決めるようなケースがある。特定の種類のtargetに対してのみformatをかける、などの操作がパスが切ってあると実現しやすい。</p>
+<h1 id="参考">参考</h1>
+<ul>
+<li><a href="https://www.swift.org/package-manager/">公式の説明</a></li>
+<li><a href="https://github.com/apple/swift-package-manage">GitHub</a></li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>
