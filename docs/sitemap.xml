@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://teakun.dev/entry/</loc>
-    <lastmod>2023-06-11T17:16:19+09:00</lastmod>
+    <loc>https://teakun.dev/entry/2023-12-31-2023/</loc>
+    <lastmod>2023-12-31T17:49:51+09:00</lastmod>
   </url><url>
-    <loc>https://teakun.dev/entry/2023-06-11-swift-enum-parse-best-way/</loc>
-    <lastmod>2023-06-11T17:16:19+09:00</lastmod>
+    <loc>https://teakun.dev/entry/</loc>
+    <lastmod>2023-12-31T17:49:51+09:00</lastmod>
   </url><url>
     <loc>https://teakun.dev/</loc>
+    <lastmod>2023-12-31T17:49:51+09:00</lastmod>
+  </url><url>
+    <loc>https://teakun.dev/entry/2023-06-11-swift-enum-parse-best-way/</loc>
     <lastmod>2023-06-11T17:16:19+09:00</lastmod>
   </url><url>
     <loc>https://teakun.dev/entry/2023-01-08-detail-of-swiftpm/</loc>
