@@ -6,7 +6,18 @@
     <description>Recent content on teakun.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 31 Dec 2023 17:49:51 +0900</lastBuildDate><atom:link href="https://teakun.dev/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Mar 2024 22:43:12 +0900</lastBuildDate><atom:link href="https://teakun.dev/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>クロージャを使ったちょっと嬉しいSwiftの書き方</title>
+      <link>https://teakun.dev/entry/2024-03-11-swift-closure-tips/</link>
+      <pubDate>Mon, 11 Mar 2024 22:43:12 +0900</pubDate>
+      
+      <guid>https://teakun.dev/entry/2024-03-11-swift-closure-tips/</guid>
+      <description>こういう場面。
+if foo == true { if bar == true { hoge() fuga() } } else { hoge() fuga() } hoge() fuga()を一緒に呼ぶ処理を何度も書きたくないけどそれをまとめた関数を作るほどでもない、というときクロージャを使うとちょっときれいに書ける。
+let closure = { hoge() fuga() } if foo == true { if bar == true { closure() } } else { closure() } ちょっと考えてみれば当然できる書き方ではあるのだけれど、意外とこれまでやってこなかったなと思ってメモ。</description>
+    </item>
+    
     <item>
       <title>2023</title>
       <link>https://teakun.dev/entry/2023-12-31-2023/</link>

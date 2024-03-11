@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<title>クロージャを使ったちょっと嬉しいSwiftの書き方 | teakun.dev</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.89.2" />
+<meta name="description" content="こういう場面。
+if foo == true { if bar == true { hoge() fuga() } } else { hoge() fuga() } hoge() fuga()を一緒に呼ぶ処理を何度も書きたくないけどそれをまとめた関数を作るほどでもない、というときクロージャを使うとちょっときれいに書ける。
+let closure = { hoge() fuga() } if foo == true { if bar == true { closure() } } else { closure() } ちょっと考えてみれば当然できる書き方ではあるのだけれど、意外とこれまでやってこなかったなと思ってメモ。">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://teakun.dev/css/index.css">
+<link rel="stylesheet" href="https://teakun.dev/css/classes.css">
+<link rel="stylesheet" href="https://teakun.dev/css/custom.css">
+<link rel="canonical" href="https://teakun.dev/entry/2024-03-11-swift-closure-tips/">
+<link rel="alternate" type="application/rss+xml" href="" title="teakun.dev">
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2YXDR7FFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z2YXDR7FFP');
+</script>
+
+
+
+<body>
+
+<header class="icons">
+  
+    <a href="https://teakun.dev/">teakun.dev</a>
+  
+  
+  
+    <div class="hidden description">teakunのブログです</div>
+  
+</header>
+
+<article>
+  <header>
+    <h1>クロージャを使ったちょっと嬉しいSwiftの書き方</h1>
+    <time datetime="2024-03-11T22:43:12&#43;09:00">March 11, 2024</time>
+  </header>
+  <p>こういう場面。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">if</span> foo == <span style="color:#66d9ef">true</span> {
+    <span style="color:#66d9ef">if</span> bar == <span style="color:#66d9ef">true</span> {
+        hoge()
+        fuga()
+    }
+} <span style="color:#66d9ef">else</span> {
+    hoge()
+    fuga()
+}
+</code></pre></div><p><code>hoge()</code> <code>fuga()</code>を一緒に呼ぶ処理を何度も書きたくないけどそれをまとめた関数を作るほどでもない、というときクロージャを使うとちょっときれいに書ける。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"> <span style="color:#66d9ef">let</span> closure = {
+    hoge()
+    fuga()
+ }
+
+ <span style="color:#66d9ef">if</span> foo == <span style="color:#66d9ef">true</span> {
+    <span style="color:#66d9ef">if</span> bar == <span style="color:#66d9ef">true</span> {
+        closure()
+    }
+ } <span style="color:#66d9ef">else</span> {
+    closure() 
+ }
+</code></pre></div><p>ちょっと考えてみれば当然できる書き方ではあるのだけれど、意外とこれまでやってこなかったなと思ってメモ。</p>
+
+</article>
+
+
+
+</body>
+
+</html>
